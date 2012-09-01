@@ -1,0 +1,5 @@
+(A) Do that really important thing
+(A) This other important thing
+(B) Walk the cat
+(C) Cook the dog
+(D) Summon AppIndicator documentation from my ass
