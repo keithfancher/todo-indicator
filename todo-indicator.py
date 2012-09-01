@@ -12,26 +12,30 @@ TESTING_TODO_FILE = "todo.txt"
 EDITOR = "gvim"
 
 
+def read_todo_file(filename):
+    """Returns a list of todo items read from the given file name."""
+    todo_file = open(filename)
+    todo_list = todo_file.read().split("\n")
+    del todo_list[-1] # kill final empty entry
+    todo_file.close()
+    return todo_list
+
+
 def edit_handler(event):
+    """Opens the todo.txt file with selected editor."""
     os.system(EDITOR + " " + TESTING_TODO_FILE)
 
 
 def quit_handler(event):
+    """Quits our fancy little program."""
     Gtk.main_quit()
 
 
-def main():
-    # open the file, read it
-    todo_file = open(TESTING_TODO_FILE)
-    todo_list = todo_file.read().split("\n")
-    del todo_list[-1] # kill final empty entry
-    todo_file.close()
-
-    # indicator business
+def build_indicator(todo_list):
+    """Builds the Indicator object."""
     ind = appindicator.Indicator.new("todo-txt-indicator", DARK_PANEL_ICON,
                                      appindicator.IndicatorCategory.OTHER)
     ind.set_status(appindicator.IndicatorStatus.ACTIVE)
-#    ind.set_attention_icon("indicator-messages-new") # necessary?
 
     # create a menu
     menu = Gtk.Menu()
@@ -60,6 +64,15 @@ def main():
     menu.append(menu_item)
 
     ind.set_menu(menu)
+
+    return ind
+
+
+def main():
+    """Our main man!"""
+    todo_list = read_todo_file(TESTING_TODO_FILE)
+
+    ind = build_indicator(todo_list)
     Gtk.main()
 
 
