@@ -8,7 +8,7 @@ from gi.repository import AppIndicator3 as appindicator
 
 
 DARK_PANEL_ICON = "gtg-panel"
-TESTING_TODO_FILE = "todo.txt"
+TESTING_TODO_FILE = "sample-todo.txt"
 EDITOR = "gvim"
 
 
