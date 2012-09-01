@@ -16,9 +16,9 @@ def read_todo_file(filename):
     """Returns a list of todo items read from the given file name."""
     todo_file = open(filename)
     todo_list = todo_file.read().split("\n")
-    del todo_list[-1] # kill final empty entry
     todo_file.close()
-    return todo_list
+    todo_list = filter(None, todo_list) # kill empty items
+    return sorted(todo_list)
 
 
 def edit_handler(event):
@@ -52,7 +52,7 @@ def build_indicator(todo_list):
     menu.append(menu_item)
 
     # add "edit list" menu item
-    menu_item = Gtk.MenuItem("Edit")
+    menu_item = Gtk.MenuItem("Edit todo.txt")
     menu_item.connect("activate", edit_handler)
     menu_item.show()
     menu.append(menu_item)

@@ -1,5 +1,7 @@
 (A) Do that really important thing
+(D) Summon AppIndicator documentation from my ass
 (A) This other important thing
 (B) Walk the cat
+
+Something with no priority!
 (C) Cook the dog
-(D) Summon AppIndicator documentation from my ass
