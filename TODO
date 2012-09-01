@@ -1,5 +1,4 @@
 TODO
 ====
-* show completed items grayed out or struck through
 * click to toggle items done
 * use inotify to track todo.txt file 
