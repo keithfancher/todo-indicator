@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 
+import fileinput
 import os
 import sys
 
@@ -19,7 +20,6 @@ class TodoIndicator(object):
         """Sets the filename, loads the list of items from the file, builds the
         indicator."""
         self.todo_filename = todo_filename
-        self._load_todo_file() # creates self.todo_list
         self._build_indicator() # creates self.ind
 
     def _load_todo_file(self):
@@ -29,17 +29,31 @@ class TodoIndicator(object):
         f.close()
         self.todo_list = sorted(filter(None, todo_list)) # kill empty items+sort
 
-    def _edit_handler(self, event):
+    def _check_off_item_with_label(self, label):
+        """Matches the given todo item, finds it in the file, and "checks it
+        off" by adding "x " to the beginning of the string. If you have
+        multiple todo items that are exactly the same, this will check them all
+        off. Also, you're stupid for doing that."""
+        for line in fileinput.input(self.todo_filename, inplace=1):
+            if line.strip() == label:
+                print "x " + line, # magic!
+            else:
+                print line,
+
+    def _check_off_handler(self, menu_item):
+        self._check_off_item_with_label(menu_item.get_label()) # write file
+        self._build_indicator() # rebuild!
+
+    def _edit_handler(self, menu_item):
         """Opens the todo.txt file with selected editor."""
         os.system(EDITOR + " " + self.todo_filename)
 
-    def _refresh_handler(self, event):
+    def _refresh_handler(self, menu_item):
         """Refreshes the list."""
         # TODO: gives odd warning about removing a child...
-        self._load_todo_file() # reload file
         self._build_indicator() # rebuild indicator
 
-    def _quit_handler(self, event):
+    def _quit_handler(self, menu_item):
         """Quits our fancy little program."""
         Gtk.main_quit()
 
@@ -51,11 +65,15 @@ class TodoIndicator(object):
         self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         menu = Gtk.Menu()
 
+        # make sure the list is loaded
+        self._load_todo_file()
+
         # create todo menu items
         for todo_item in self.todo_list:
             menu_item = Gtk.MenuItem(todo_item)
             if todo_item[0:2] == 'x ': # gray out completed items
                 menu_item.set_sensitive(False)
+            menu_item.connect("activate", self._check_off_handler)
             menu_item.show()
             menu.append(menu_item)
 
