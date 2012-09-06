@@ -2,6 +2,7 @@
 
 
 import os
+import sys
 
 from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
@@ -9,48 +10,49 @@ from gi.repository import AppIndicator3 as appindicator
 
 DARK_PANEL_ICON = "gtg-panel"
 TESTING_TODO_FILE = "sample-todo.txt"
-EDITOR = "gvim"
+EDITOR = "xdg-open"
 
 
 class TodoIndicator(object):
 
-    def __init__(self):
-        self.todo_list = self._read_todo_file(TESTING_TODO_FILE)
-        self.ind = self._build_indicator(self.todo_list)
+    def __init__(self, todo_filename):
+        """Sets the filename, loads the list of items from the file, builds the
+        indicator."""
+        self.todo_filename = todo_filename
+        self._load_todo_file() # creates self.todo_list
+        self._build_indicator() # creates self.ind
 
-    def _read_todo_file(self, filename):
-        """Returns a list of todo items read from the given file name."""
-        todo_file = open(filename)
-        todo_list = todo_file.read().split("\n")
-        todo_file.close()
-        todo_list = filter(None, todo_list) # kill empty items
-        return sorted(todo_list)
+    def _load_todo_file(self):
+        """Populates the list of todo items from the todo file."""
+        f = open(self.todo_filename)
+        todo_list = f.read().split("\n")
+        f.close()
+        self.todo_list = sorted(filter(None, todo_list)) # kill empty items+sort
 
     def _edit_handler(self, event):
         """Opens the todo.txt file with selected editor."""
-        os.system(EDITOR + " " + TESTING_TODO_FILE)
+        os.system(EDITOR + " " + self.todo_filename)
 
     def _refresh_handler(self, event):
         """Refreshes the list."""
         # TODO: gives odd warning about removing a child...
-        self.todo_list = self._read_todo_file(TESTING_TODO_FILE)
-        self.ind = self._build_indicator(self.todo_list)
+        self._load_todo_file() # reload file
+        self._build_indicator() # rebuild indicator
 
     def _quit_handler(self, event):
         """Quits our fancy little program."""
         Gtk.main_quit()
 
-    def _build_indicator(self, todo_list):
+    def _build_indicator(self):
         """Builds the Indicator object."""
-        ind = appindicator.Indicator.new("todo-txt-indicator", DARK_PANEL_ICON,
+        self.ind = appindicator.Indicator.new("todo-txt-indicator",
+                                         DARK_PANEL_ICON,
                                          appindicator.IndicatorCategory.OTHER)
-        ind.set_status(appindicator.IndicatorStatus.ACTIVE)
-
-        # create a menu
+        self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         menu = Gtk.Menu()
 
         # create todo menu items
-        for todo_item in todo_list:
+        for todo_item in self.todo_list:
             menu_item = Gtk.MenuItem(todo_item)
             if todo_item[0:2] == 'x ': # gray out completed items
                 menu_item.set_sensitive(False)
@@ -80,9 +82,8 @@ class TodoIndicator(object):
         menu_item.show()
         menu.append(menu_item)
 
-        ind.set_menu(menu)
-
-        return ind
+        # do it!
+        self.ind.set_menu(menu)
 
     def main(self):
         """The indicator's main loop."""
@@ -90,5 +91,10 @@ class TodoIndicator(object):
 
 
 if __name__ == "__main__":
-    ind = TodoIndicator()
+    if len(sys.argv) == 2:
+        todo_filename = sys.argv[1]
+    else:
+        todo_filename = TESTING_TODO_FILE
+
+    ind = TodoIndicator(todo_filename)
     ind.main()

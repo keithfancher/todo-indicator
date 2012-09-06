@@ -1,4 +1,5 @@
 TODO
 ====
-* click to toggle items done
+* let user config todo file and editor
 * use inotify to track todo.txt file 
+* click to toggle items done
