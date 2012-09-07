@@ -3,9 +3,10 @@
 
 import fileinput
 import os
+import pyinotify
 import sys
 
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 from gi.repository import AppIndicator3 as appindicator
 
 
@@ -19,8 +20,26 @@ class TodoIndicator(object):
     def __init__(self, todo_filename):
         """Sets the filename, loads the list of items from the file, builds the
         indicator."""
-        self.todo_filename = todo_filename
+        self.todo_filename = os.path.abspath(todo_filename) # absolute path!
+        self.todo_path = os.path.dirname(self.todo_filename) # useful
         self._build_indicator() # creates self.ind
+
+        # Watch for modifications of the todo file with pyinotify. We have to
+        # watch the entire path, since inotify is very inconsistent about what
+        # events it catches for a single file. Annoying.
+        self.wm = pyinotify.WatchManager()
+        self.notifier = pyinotify.ThreadedNotifier(self.wm,
+                                                   self._process_inotify_event)
+        self.notifier.start()
+        self.wm.add_watch(self.todo_path, pyinotify.IN_MODIFY)
+
+    def _process_inotify_event(self, event):
+        """This callback is typically an instance of the ProcessEvent class,
+        but after digging through the pyinotify source it looks like it can
+        also be a function? This makes things much easier in our case, avoids
+        nested classes, etc."""
+        if event.pathname == self.todo_filename:
+            self._build_indicator() # rebuild if file modified
 
     def _load_todo_file(self):
         """Populates the list of todo items from the todo file."""
@@ -49,26 +68,32 @@ class TodoIndicator(object):
         os.system(EDITOR + " " + self.todo_filename)
 
     def _refresh_handler(self, menu_item):
-        """Refreshes the list."""
+        """Manually refreshes the list."""
         # TODO: gives odd warning about removing a child...
         self._build_indicator() # rebuild indicator
 
     def _quit_handler(self, menu_item):
         """Quits our fancy little program."""
+        self.notifier.stop() # stop watching the file!
         Gtk.main_quit()
 
     def _build_indicator(self):
         """Builds the Indicator object."""
-        self.ind = appindicator.Indicator.new("todo-txt-indicator",
-                                         DARK_PANEL_ICON,
-                                         appindicator.IndicatorCategory.OTHER)
-        self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
-        menu = Gtk.Menu()
+        if not hasattr(self, 'ind'): # self.ind needs to be created
+            # TODO: creating self.ind every time causes segfaults when the file
+            # is modified 2+ times and the thing rebuilds, but NOT creating it
+            # every time causes the file to load incorrectly and the menu to be
+            # created incorrectly. And occasional freezes? Need more indicator
+            # info...
+            self.ind = appindicator.Indicator.new("todo-txt-indicator",
+                DARK_PANEL_ICON, appindicator.IndicatorCategory.OTHER)
+            self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # make sure the list is loaded
         self._load_todo_file()
 
         # create todo menu items
+        menu = Gtk.Menu()
         for todo_item in self.todo_list:
             menu_item = Gtk.MenuItem(todo_item)
             if todo_item[0:2] == 'x ': # gray out completed items
@@ -114,5 +139,6 @@ if __name__ == "__main__":
     else:
         todo_filename = TESTING_TODO_FILE
 
+    GObject.threads_init() # necessary for threaded notifications
     ind = TodoIndicator(todo_filename)
     ind.main()
