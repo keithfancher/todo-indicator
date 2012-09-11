@@ -1,5 +1,42 @@
-README
-======
+TODO-INDICATOR
+==============
 
-A work-in-progress Ubuntu app indicator for todo.txt-style todo lists. More
-info about todo.txt here: http://todotxt.com/
+An Ubuntu app indicator for todo.txt-style todo lists. More info about todo.txt
+here: http://todotxt.com/
+
+
+REQUIREMENTS
+------------
+* Python
+* Pyinotify
+* Some kinda Ubuntu app indicator-compatible junk
+
+
+HOW DO I USE IT?
+----------------
+Just run it, passing the name of your todo.txt file as an argument, e.g.:
+
+    $ ./todo-indicator.py ~/todo.txt
+
+Click the indicator icon to check out your list of must-do-ables. If you finish
+one of your tasks, give yourself a pat on the back and click it! It'll be
+marked "done."
+
+
+BUT I WANT MORE COMPLEX FUNCTIONALITY!
+--------------------------------------
+You mean you want to change priorities, add "contexts" and "projects," and so
+on? Well, the best way to do that isn't with some silly little program -- it's
+with your trusty text editor! That's the whole beauty of the todo.txt system.
+
+Simply click the "Edit todo.txt" menu item and your todo list will pop open in
+your text editor of choice. (Or your OS's text editor of choice, at least -- it
+uses xdg-open.) Once you've made your changes and saved the file, you should
+automatically see your updates reflected in todo-indicator. (Thanks, inotify!)
+If for some reason the indicator doesn't update properly, try clicking the
+"Refresh" menu item to hard refresh everything.
+
+
+WHAT ELSE?
+----------
+That's all! Enjoy.
