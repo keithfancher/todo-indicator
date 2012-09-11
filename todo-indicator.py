@@ -20,26 +20,48 @@ class TodoIndicator(object):
     def __init__(self, todo_filename):
         """Sets the filename, loads the list of items from the file, builds the
         indicator."""
+        self.list_updated_flag = False # does the GUI need to catch up?
         self.todo_filename = os.path.abspath(todo_filename) # absolute path!
         self.todo_path = os.path.dirname(self.todo_filename) # useful
         self._build_indicator() # creates self.ind
 
         # Watch for modifications of the todo file with pyinotify. We have to
         # watch the entire path, since inotify is very inconsistent about what
-        # events it catches for a single file. Annoying.
+        # events it catches for a single file.
         self.wm = pyinotify.WatchManager()
         self.notifier = pyinotify.ThreadedNotifier(self.wm,
                                                    self._process_inotify_event)
         self.notifier.start()
         self.wm.add_watch(self.todo_path, pyinotify.IN_MODIFY)
 
+        # Add timeout function, allows threading to not fart all over itself.
+        # Can't use Gobject.idle_add() since it rudely 100%s the CPU.
+        GObject.timeout_add(500, self._update_if_todo_file_changed)
+
+    def _update_if_todo_file_changed(self):
+        """This will be called by the main GTK thread every half second or so.
+        If the self.list_updated_flag is False, it will immediately return. If
+        it's True, it will rebuild the GUI with the updated list and reset the
+        flag.  This is necessary since threads + GTK are wonky as fuck."""
+        if self.list_updated_flag:
+            self._build_indicator() # rebuild
+            self.list_updated_flag = False # reset flag
+
+        # if we don't explicitly return True here the callback will be removed
+        # from the queue after one call and will never be called again
+        return True
+
     def _process_inotify_event(self, event):
         """This callback is typically an instance of the ProcessEvent class,
         but after digging through the pyinotify source it looks like it can
         also be a function? This makes things much easier in our case, avoids
-        nested classes, etc."""
+        nested classes, etc.
+        
+        This function can't explicitly update the GUI since it's on a different
+        thread, so it just flips a flag and lets another function called by the
+        GTK main loop do the real work."""
         if event.pathname == self.todo_filename:
-            self._build_indicator() # rebuild if file modified
+            self.list_updated_flag = True
 
     def _load_todo_file(self):
         """Populates the list of todo items from the todo file."""
