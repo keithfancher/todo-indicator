@@ -32,7 +32,11 @@ class TodoIndicator(object):
         self.notifier = pyinotify.ThreadedNotifier(self.wm,
                                                    self._process_inotify_event)
         self.notifier.start()
-        self.wm.add_watch(self.todo_path, pyinotify.IN_MODIFY)
+
+        # The IN_MOVED_TO watch catches Dropbox updates, which don't trigger
+        # normal IN_MODIFY events.
+        self.wm.add_watch(self.todo_path,
+                          pyinotify.IN_MODIFY | pyinotify.IN_MOVED_TO)
 
         # Add timeout function, allows threading to not fart all over itself.
         # Can't use Gobject.idle_add() since it rudely 100%s the CPU.
@@ -56,7 +60,7 @@ class TodoIndicator(object):
         but after digging through the pyinotify source it looks like it can
         also be a function? This makes things much easier in our case, avoids
         nested classes, etc.
-        
+
         This function can't explicitly update the GUI since it's on a different
         thread, so it just flips a flag and lets another function called by the
         GTK main loop do the real work."""
