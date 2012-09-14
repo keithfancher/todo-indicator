@@ -74,10 +74,14 @@ class TodoIndicator(object):
 
     def _load_todo_file(self):
         """Populates the list of todo items from the todo file."""
-        f = open(self.todo_filename)
-        todo_list = f.read().split("\n")
-        f.close()
-        self.todo_list = sorted(filter(None, todo_list)) # kill empty items+sort
+        try:
+            with open(self.todo_filename) as f:
+                todo_list = f.read().split("\n")
+                # kill empty items/lines, sort list alphabetically:
+                self.todo_list = sorted(filter(None, todo_list))
+        except IOError:
+            print "Error opening file:\n" + self.todo_filename
+            sys.exit(1)
 
     def _check_off_item_with_label(self, label):
         """Matches the given todo item, finds it in the file, and "checks it
