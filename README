@@ -32,9 +32,21 @@ with your trusty text editor! That's the whole beauty of the todo.txt system.
 Simply click the "Edit todo.txt" menu item and your todo list will pop open in
 your text editor of choice. (Or your OS's text editor of choice, at least -- it
 uses xdg-open.) Once you've made your changes and saved the file, you should
-automatically see your updates reflected in todo-indicator. (Thanks, inotify!)
+see your updates automatically reflected in todo-indicator. (Thanks, inotify!)
 If for some reason the indicator doesn't update properly, try clicking the
 "Refresh" menu item to hard refresh everything.
+
+
+BUT I HATE MY OS'S TEXT EDITOR OF CHOICE!
+-----------------------------------------
+I'm sorry! In that case, pass your favorite editor to todo-indicator on the
+command line, like so:
+
+    $ ./todo-indicator.py -e gvim ~/todo.txt
+
+Now when you click "Edit todo.txt" your very own personal editor will be used
+instead of the system default. (But I've gotta say: if you love that editor so
+much, why not set it as the default?)
 
 
 WHAT ELSE?

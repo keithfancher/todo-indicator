@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 
+import argparse
 import fileinput
 import os
 import pyinotify
@@ -11,15 +12,19 @@ from gi.repository import AppIndicator3 as appindicator
 
 
 DARK_PANEL_ICON = "gtg-panel"
-TESTING_TODO_FILE = "sample-todo.txt"
-EDITOR = "xdg-open"
+DEFAULT_EDITOR = "xdg-open"
 
 
 class TodoIndicator(object):
 
-    def __init__(self, todo_filename):
+    def __init__(self, todo_filename, text_editor=None):
         """Sets the filename, loads the list of items from the file, builds the
         indicator."""
+        if text_editor:
+            self.text_editor = text_editor
+        else:
+            self.text_editor = DEFAULT_EDITOR
+
         self.list_updated_flag = False # does the GUI need to catch up?
         self.todo_filename = os.path.abspath(todo_filename) # absolute path!
         self.todo_path = os.path.dirname(self.todo_filename) # useful
@@ -91,7 +96,7 @@ class TodoIndicator(object):
 
     def _edit_handler(self, menu_item):
         """Opens the todo.txt file with selected editor."""
-        os.system(EDITOR + " " + self.todo_filename)
+        os.system(self.text_editor + " " + self.todo_filename)
 
     def _refresh_handler(self, menu_item):
         """Manually refreshes the list."""
@@ -159,12 +164,19 @@ class TodoIndicator(object):
         Gtk.main()
 
 
-if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        todo_filename = sys.argv[1]
-    else:
-        todo_filename = TESTING_TODO_FILE
+def get_args():
+    """Gets and parses command line arguments."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-e', '--editor', action='store',
+                        help='your favorite text editor')
+    parser.add_argument('todo_filename', action='store',
+                        help='your todo.txt file')
+    return parser.parse_args()
 
+
+if __name__ == "__main__":
+    args = get_args()
     GObject.threads_init() # necessary for threaded notifications
-    ind = TodoIndicator(todo_filename)
+
+    ind = TodoIndicator(args.todo_filename, args.editor)
     ind.main()
