@@ -1,5 +1,7 @@
 TODO
 ====
+* clear checked items
 * better error checking/handling
 * config dark or light panel icon
 * include icon in package?
+* some tests would be nice
