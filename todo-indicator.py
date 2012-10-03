@@ -25,6 +25,7 @@ class TodoIndicator(object):
         else:
             self.text_editor = DEFAULT_EDITOR
 
+        GObject.threads_init() # necessary for threaded notifications
         self.list_updated_flag = False # does the GUI need to catch up?
         self.todo_filename = os.path.abspath(todo_filename) # absolute path!
         self.todo_path = os.path.dirname(self.todo_filename) # useful
@@ -175,7 +176,5 @@ def get_args():
 
 if __name__ == "__main__":
     args = get_args()
-    GObject.threads_init() # necessary for threaded notifications
-
     ind = TodoIndicator(args.todo_filename, args.editor)
     ind.main()
