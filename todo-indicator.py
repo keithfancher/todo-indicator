@@ -115,11 +115,6 @@ class TodoIndicator(object):
     def _build_indicator(self):
         """Builds the Indicator object."""
         if not hasattr(self, 'ind'): # self.ind needs to be created
-            # TODO: creating self.ind every time causes segfaults when the file
-            # is modified 2+ times and the thing rebuilds, but NOT creating it
-            # every time causes the file to load incorrectly and the menu to be
-            # created incorrectly. And occasional freezes? Need more indicator
-            # info...
             self.ind = appindicator.Indicator.new("todo-txt-indicator",
                 DARK_PANEL_ICON, appindicator.IndicatorCategory.OTHER)
             self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
