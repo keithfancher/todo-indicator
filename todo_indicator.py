@@ -27,7 +27,7 @@ from gi.repository import Gtk, GObject
 from gi.repository import AppIndicator3 as appindicator
 
 
-DARK_PANEL_ICON = "gtg-panel"
+PANEL_ICON = "gtg-panel"
 DEFAULT_EDITOR = "xdg-open"
 
 
@@ -133,7 +133,7 @@ class TodoIndicator(object):
         """Builds the Indicator object."""
         if not hasattr(self, 'ind'): # self.ind needs to be created
             self.ind = appindicator.Indicator.new("todo-txt-indicator",
-                DARK_PANEL_ICON, appindicator.IndicatorCategory.OTHER)
+                PANEL_ICON, appindicator.IndicatorCategory.OTHER)
             self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # make sure the list is loaded
