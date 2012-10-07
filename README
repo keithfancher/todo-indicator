@@ -9,7 +9,9 @@ REQUIREMENTS
 ------------
 * Python
 * Pyinotify
-* Some kinda Ubuntu app indicator-compatible junk
+* Argparse (standard with Python 2.7+)
+* GTK3
+* Some kind of widget/tray/app/whatever that loves Ubuntu app indicators
 
 
 HOW DO I USE IT?
