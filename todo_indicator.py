@@ -112,6 +112,7 @@ class TodoIndicator(object):
                 print line,
 
     def _check_off_handler(self, menu_item):
+        """Callback to check items off the list."""
         self._check_off_item_with_label(menu_item.get_label()) # write file
         self._build_indicator() # rebuild!
 
@@ -190,7 +191,12 @@ def get_args():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
+    """My main() man."""
     args = get_args()
     ind = TodoIndicator(args.todo_filename, args.editor)
     ind.main()
+
+
+if __name__ == "__main__":
+    main()
