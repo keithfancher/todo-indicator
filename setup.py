@@ -9,6 +9,7 @@ setup(name='todo_indicator',
       description='Ubuntu app indicator for todo.txt-style todo lists',
       author='Keith Fancher',
       author_email='keith.fancher@gmail.com',
+      license='GPLv3',
       url='https://github.com/keithfancher/Todo-Indicator',
       scripts=['todo_indicator.py'],
       install_requires=[
