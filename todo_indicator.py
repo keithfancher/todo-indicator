@@ -111,6 +111,14 @@ class TodoIndicator(object):
             else:
                 print line,
 
+    def _remove_checked_off_items(self):
+        """Remove checked items from the file itself."""
+        for line in fileinput.input(self.todo_filename, inplace=1):
+            if line[:2] == 'x ':
+                pass
+            else:
+                print line,
+
     def _check_off_handler(self, menu_item):
         """Callback to check items off the list."""
         self._check_off_item_with_label(menu_item.get_label()) # write file
@@ -119,6 +127,11 @@ class TodoIndicator(object):
     def _edit_handler(self, menu_item):
         """Opens the todo.txt file with selected editor."""
         os.system(self.text_editor + " " + self.todo_filename)
+
+    def _clear_completed_handler(self, menu_item):
+        """Remove checked off items, rebuild list menu."""
+        self._remove_checked_off_items()
+        self._build_indicator()
 
     def _refresh_handler(self, menu_item):
         """Manually refreshes the list."""
@@ -158,6 +171,12 @@ class TodoIndicator(object):
         # add "edit list" menu item
         menu_item = Gtk.MenuItem("Edit todo.txt")
         menu_item.connect("activate", self._edit_handler)
+        menu_item.show()
+        menu.append(menu_item)
+
+        # add "clear completed" menu item
+        menu_item = Gtk.MenuItem("Clear completed")
+        menu_item.connect("activate", self._clear_completed_handler)
         menu_item.show()
         menu.append(menu_item)
 
