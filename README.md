@@ -4,6 +4,8 @@ TODO INDICATOR
 An Ubuntu app indicator for todo.txt-style todo lists. More info about todo.txt
 here: http://todotxt.com/
 
+![Todo Indicator indicating](https://raw.github.com/keithfancher/Todo-Indicator/master/todo_indicator_shot.png)
+
 
 REQUIREMENTS
 ------------
