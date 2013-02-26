@@ -92,7 +92,7 @@ class TodoIndicator(object):
     def _load_todo_file(self):
         """Populates the list of todo items from the todo file."""
         try:
-            with open(self.todo_filename) as f:
+            with open(self.todo_filename, 'a+') as f:
                 todo_list = f.read().split("\n")
                 # kill empty items/lines, sort list alphabetically:
                 self.todo_list = sorted(filter(None, todo_list))
