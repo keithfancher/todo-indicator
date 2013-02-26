@@ -155,11 +155,18 @@ class TodoIndicator(object):
 
         # create todo menu items
         menu = Gtk.Menu()
-        for todo_item in self.todo_list:
-            menu_item = Gtk.MenuItem(todo_item)
-            if todo_item[0:2] == 'x ': # gray out completed items
-                menu_item.set_sensitive(False)
-            menu_item.connect("activate", self._check_off_handler)
+        if self.todo_list:
+            for todo_item in self.todo_list:
+                menu_item = Gtk.MenuItem(todo_item)
+                if todo_item[0:2] == 'x ': # gray out completed items
+                    menu_item.set_sensitive(False)
+                menu_item.connect("activate", self._check_off_handler)
+                menu_item.show()
+                menu.append(menu_item)
+        # empty list
+        else:
+            menu_item = Gtk.MenuItem('[ No items. Click \'Edit\' to add some! ]')
+            menu_item.set_sensitive(False)
             menu_item.show()
             menu.append(menu_item)
 
