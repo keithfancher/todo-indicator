@@ -94,8 +94,10 @@ class TodoIndicator(object):
         try:
             with open(self.todo_filename, 'a+') as f:
                 todo_list = f.read().split("\n")
-                # kill empty items/lines, sort list alphabetically:
-                self.todo_list = sorted(filter(None, todo_list))
+                # kill empty items/lines, sort list alphabetically (but with
+                # checked-off items bumped to end of the list):
+                self.todo_list = sorted(filter(None, todo_list),
+                    key=lambda a: 'z' * 10 + a if a[:2] == 'x ' else a)
         except IOError:
             print "Error opening file:\n" + self.todo_filename
             sys.exit(1)
