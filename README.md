@@ -22,7 +22,7 @@ You can clone the git repo thusly:
 
     $ git clone git://github.com/keithfancher/Todo-Indicator.git
 
-Then just copy the todo_indicator.py file somewhere in your path and run it!
+Then just copy the `todo_indicator.py` file somewhere in your path and run it!
 
 You can also install with pip:
 
@@ -46,21 +46,21 @@ marked "done."
 BUT I WANT MORE COMPLEX FUNCTIONALITY!
 --------------------------------------
 You mean you want to change priorities, add "contexts" and "projects," and so
-on? Well, the best way to do that isn't with some silly little indicator --
-it's with your trusty text editor! That's the whole beauty of the todo.txt
-system.
+on? Well, the best way to do that isn't with some silly indicator -- it's with
+your trusty text editor! That's the whole beauty of the todo.txt system.
 
-Simply click the "Edit todo.txt" menu item and your todo list will pop open in
-your text editor of choice. (Or your OS's text editor of choice, at least -- it
-uses xdg-open.) Once you've made your changes and saved the file, you should
-see your updates automatically reflected in todo_indicator. (Thanks, inotify!)
-If for some reason the indicator doesn't update properly, try clicking the
-"Refresh" menu item to hard refresh everything.
+Click "Edit todo.txt" and your todo list will pop open in your text editor of
+choice. (Or your OS's text editor of choice, at least -- it uses `xdg-open`.)
+Once you've made your changes and saved the file, you should see your updates
+automatically reflected in `todo_indicator.py`. (Thanks, inotify!)
+
+If for some reason the indicator doesn't update properly, try (sternly)
+clicking "Refresh".
 
 
 BUT I HATE MY OS'S TEXT EDITOR OF CHOICE!
 -----------------------------------------
-I'm sorry! In that case, pass your favorite editor to todo_indicator on the
+I'm sorry! In that case, pass your favorite editor to `todo_indicator.py` on the
 command line, like so:
 
     $ ./todo_indicator.py -e gvim ~/todo.txt
