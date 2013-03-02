@@ -41,6 +41,14 @@ class TodoIndicator(object):
         else:
             self.text_editor = DEFAULT_EDITOR
 
+        # Menu items (aside from the todo items themselves). An association of
+        # text and callback functions. Can't use a dict because we need to
+        # preserve order.
+        self._menu_items = [ ('Edit todo.txt', self._edit_handler),
+                             ('Clear completed', self._clear_completed_handler),
+                             ('Refresh', self._refresh_handler),
+                             ('Quit', self._quit_handler) ]
+
         GObject.threads_init() # necessary for threaded notifications
         self.list_updated_flag = False # does the GUI need to catch up?
         self.todo_filename = os.path.abspath(todo_filename) # absolute path!
@@ -177,29 +185,12 @@ class TodoIndicator(object):
         menu_item.show()
         menu.append(menu_item)
 
-        # add "edit list" menu item
-        menu_item = Gtk.MenuItem("Edit todo.txt")
-        menu_item.connect("activate", self._edit_handler)
-        menu_item.show()
-        menu.append(menu_item)
-
-        # add "clear completed" menu item
-        menu_item = Gtk.MenuItem("Clear completed")
-        menu_item.connect("activate", self._clear_completed_handler)
-        menu_item.show()
-        menu.append(menu_item)
-
-        # add "refresh" menu item
-        menu_item = Gtk.MenuItem("Refresh")
-        menu_item.connect("activate", self._refresh_handler)
-        menu_item.show()
-        menu.append(menu_item)
-
-        # add quit menu item
-        menu_item = Gtk.MenuItem("Quit")
-        menu_item.connect("activate", self._quit_handler)
-        menu_item.show()
-        menu.append(menu_item)
+        # our menu
+        for text, callback in self._menu_items:
+            menu_item = Gtk.MenuItem(text)
+            menu_item.connect("activate", callback)
+            menu_item.show()
+            menu.append(menu_item)
 
         # do it!
         self.ind.set_menu(menu)
