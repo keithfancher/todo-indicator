@@ -31,6 +31,20 @@ PANEL_ICON = "gtg-panel"
 DEFAULT_EDITOR = "xdg-open"
 
 
+class TodoTxtItem(object):
+
+    def __init__(self, text=None, priority=None, is_completed=False):
+        self.text = text
+        self.priority = priority
+        self.is_completed = is_completed
+
+    def init_from_text(self, list_item_text):
+        pass
+
+    def to_string(self):
+        pass
+
+
 class TodoTxtList(object):
 
     def __init__(self, todo_filename=None, todo_text=None):
