@@ -116,7 +116,7 @@ class TodoIndicator(object):
         multiple todo items that are exactly the same, this will check them all
         off. Also, you're stupid for doing that."""
         for line in fileinput.input(self.todo_filename, inplace=1):
-            if line.strip() == label:
+            if line.strip() == label.strip():
                 print "x " + line, # magic!
             else:
                 print line,
