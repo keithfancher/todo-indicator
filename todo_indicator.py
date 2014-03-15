@@ -31,6 +31,34 @@ PANEL_ICON = "gtg-panel"
 DEFAULT_EDITOR = "xdg-open"
 
 
+class TodoTxtList(object):
+
+    def __init__(self, todo_filename=None, todo_text=None):
+        """Can initialize from either a file, or from text directly?"""
+
+        if todo_filename:
+            self.todo_filename = os.path.abspath(todo_filename)  # absolute path!
+            self.todo_path = os.path.dirname(self.todo_filename) # useful
+
+        self.items = []
+        self.items_as_text = ''
+
+    def add_item(self):
+        pass
+    def remove_item(self):
+        pass
+    def mark_item_completed(self):
+        pass
+    def sort_list(self):
+        pass
+    def build_list_from_text(self, list_text):
+        pass
+    def read_from_file(self):
+        pass
+    def write_to_file(self):
+        pass
+
+
 class TodoIndicator(object):
 
     def __init__(self, todo_filename, text_editor=None):
