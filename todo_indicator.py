@@ -61,7 +61,15 @@ class TodoTxtItem(object):
         self.text = item_text
 
     def to_string(self):
-        pass
+        if self.is_completed:
+            output = 'x '
+        else:
+            output = ''
+
+        if self.priority:
+            output = output + '(' + self.priority + ') '
+
+        return output + self.text
 
 
 class TodoTxtList(object):

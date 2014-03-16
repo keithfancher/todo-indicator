@@ -64,6 +64,24 @@ class TestTodoTxtItem(unittest.TestCase):
         self.assertEqual(test_item.priority, 'R')
         self.assertEqual(test_item.text, 'Good thing I completed this')
 
+    def test_to_string(self):
+        test_item = TodoTxtItem('This is some task', 'F', True)
+        self.assertEqual(test_item.to_string(), 'x (F) This is some task')
+
+        test_item = TodoTxtItem('This is some task', None, False)
+        self.assertEqual(test_item.to_string(), 'This is some task')
+
+    def test_from_string_back_to_string(self):
+        original_item = 'x (Z) Here we go again'
+        some_whitespace = 'x    (B)    This one is pretty weird'
+
+        test_item = TodoTxtItem()
+        test_item.init_from_text(original_item)
+        self.assertEqual(original_item, test_item.to_string())
+
+        test_item.init_from_text(some_whitespace)
+        self.assertEqual('x (B) This one is pretty weird', test_item.to_string())
+
 
 if __name__ == '__main__':
     unittest.main()
