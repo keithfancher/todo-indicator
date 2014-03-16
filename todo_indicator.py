@@ -21,6 +21,7 @@ import argparse
 import fileinput
 import os
 import pyinotify
+import re
 import sys
 
 from gi.repository import Gtk, GObject
@@ -38,8 +39,26 @@ class TodoTxtItem(object):
         self.priority = priority
         self.is_completed = is_completed
 
-    def init_from_text(self, list_item_text):
-        pass
+    def init_from_text(self, item_text):
+        item_text = item_text.strip()
+
+        # First get completion:
+        if item_text[:2] == 'x ':
+            self.is_completed = True
+            item_text = item_text[2:].strip()
+        else:
+            self.is_completed = False
+
+        # Now get priority, if it exists:
+        priority_regex = r'^\(([A-Z])\) '
+        match = re.search(priority_regex, item_text)
+        if match:
+            self.priority = match.group(1)
+            item_text = item_text[3:].strip()
+        else:
+            self.priority = None
+
+        self.text = item_text
 
     def to_string(self):
         pass
