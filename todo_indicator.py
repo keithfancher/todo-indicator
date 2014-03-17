@@ -75,17 +75,48 @@ class TodoTxtItem(object):
 class TodoTxtList(object):
 
     def __init__(self, todo_filename=None, todo_text=None):
-        """Can initialize from either a file, or from text directly?"""
-
-        if todo_filename:
-            self.todo_filename = os.path.abspath(todo_filename)  # absolute path!
-            self.todo_path = os.path.dirname(self.todo_filename) # useful
-
+        """Can initialize from either a file, or from text directly."""
         self.items = []
         self.items_as_text = ''
+        self.todo_filename = ''
+        self.todo_path = ''
 
-    def add_item(self):
-        pass
+        if todo_filename:
+            self.init_from_file(todo_filename)
+        elif todo_text:
+            self.init_from_text(todo_text)
+
+    def init_from_text(self, list_text):
+        """Init the list object from a plaintext todo.txt list."""
+        todo_lines = list_text.split("\n")
+        for todo_line in todo_lines:
+            self.add_item(todo_line)
+
+    def init_from_file(self, file_name):
+        """Init the list object from the *filename* of a todo.txt list."""
+        self.todo_filename = os.path.abspath(todo_filename)  # absolute path!
+        self.todo_path = os.path.dirname(self.todo_filename) # useful
+
+        try:
+            with open(self.todo_filename, 'a+') as f:
+                todo_lines = f.read()
+        except IOError:
+            print "Error opening file:\n" + self.todo_filename
+            sys.exit(1)
+
+        self.init_from_text(todo_lines)
+
+    def add_item(self, item_text):
+        """Turn a line of text into a TodoTxtItem object, then append it to our
+        list of those objects."""
+        if item_text.strip():
+            new_list_item = TodoTxtItem()
+            new_list_item.init_from_text(item_text)
+            self.items.append(new_list_item)
+
+    def num_items(self):
+        return len(self.items)
+
     def remove_item(self):
         pass
     def mark_item_completed(self):

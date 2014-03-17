@@ -3,7 +3,7 @@
 
 import unittest
 
-from todo_indicator import TodoTxtItem
+from todo_indicator import TodoTxtItem, TodoTxtList
 
 
 class TestTodoTxtItem(unittest.TestCase):
@@ -81,6 +81,28 @@ class TestTodoTxtItem(unittest.TestCase):
 
         test_item.init_from_text(some_whitespace)
         self.assertEqual('x (B) This one is pretty weird', test_item.to_string())
+
+
+class TestTodoTxtList(unittest.TestCase):
+
+    def test_init_from_text(self):
+        todo_text = "(A) Item one\n(Z) Item two\nx Item three\n\n \n"
+        test_list = TodoTxtList()
+        test_list.init_from_text(todo_text)
+
+        self.assertEqual(3, test_list.num_items())
+
+        self.assertEqual('Item one', test_list.items[0].text)
+        self.assertEqual('A', test_list.items[0].priority)
+        self.assertFalse(test_list.items[0].is_completed)
+
+        self.assertEqual('Item two', test_list.items[1].text)
+        self.assertEqual('Z', test_list.items[1].priority)
+        self.assertFalse(test_list.items[1].is_completed)
+
+        self.assertEqual('Item three', test_list.items[2].text)
+        self.assertEqual(None, test_list.items[2].priority)
+        self.assertTrue(test_list.items[2].is_completed)
 
 
 if __name__ == '__main__':
