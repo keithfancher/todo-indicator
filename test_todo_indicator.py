@@ -87,8 +87,7 @@ class TestTodoTxtList(unittest.TestCase):
 
     def test_init_from_text(self):
         todo_text = "(A) Item one\n(Z) Item two\nx Item three\n\n \n"
-        test_list = TodoTxtList()
-        test_list.init_from_text(todo_text)
+        test_list = TodoTxtList(None, todo_text)
 
         self.assertEqual(3, test_list.num_items())
 
