@@ -96,6 +96,24 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual(None, test_list.items[1].priority)
         self.assertTrue(test_list.items[1].is_completed)
 
+    def test_mark_item_completed(self):
+        todo_text = "(A) Item one\n(Z) Item two\nx Item three\n\n \n"
+        test_list = TodoTxtList(None, todo_text)
+
+        test_list.mark_item_completed('Item two')
+
+        self.assertEqual('Item one', test_list.items[0].text)
+        self.assertEqual('A', test_list.items[0].priority)
+        self.assertFalse(test_list.items[0].is_completed)
+
+        self.assertEqual('Item two', test_list.items[1].text)
+        self.assertEqual('Z', test_list.items[1].priority)
+        self.assertTrue(test_list.items[1].is_completed)
+
+        self.assertEqual('Item three', test_list.items[2].text)
+        self.assertEqual(None, test_list.items[2].priority)
+        self.assertTrue(test_list.items[2].is_completed)
+
 
 if __name__ == '__main__':
     unittest.main()

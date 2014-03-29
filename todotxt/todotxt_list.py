@@ -52,6 +52,7 @@ class TodoTxtList(object):
             with open(self.todo_filename, 'a+') as f:
                 todo_lines = f.read()
         except IOError:
+            # TODO: Consider moving this check into calling class
             print "Error opening file:\n" + self.todo_filename
             sys.exit(1)
 
@@ -72,8 +73,12 @@ class TodoTxtList(object):
         """Remove item with matching item text."""
         self.items = filter(lambda x: x.text != item_text, self.items)
 
-    def mark_item_completed(self):
-        pass
+    def mark_item_completed(self, item_text):
+        """Mark item with matching text completed."""
+        for item in self.items:
+            if item.text == item_text:
+                item.is_completed = True
+
     def sort_list(self):
         pass
     def write_to_file(self):
