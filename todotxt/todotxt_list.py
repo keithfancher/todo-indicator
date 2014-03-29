@@ -68,8 +68,10 @@ class TodoTxtList(object):
     def num_items(self):
         return len(self.items)
 
-    def remove_item(self):
-        pass
+    def remove_item(self, item_text):
+        """Remove item with matching item text."""
+        self.items = filter(lambda x: x.text != item_text, self.items)
+
     def mark_item_completed(self):
         pass
     def sort_list(self):
