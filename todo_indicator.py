@@ -94,7 +94,7 @@ class TodoTxtList(object):
 
     def init_from_file(self, file_name):
         """Init the list object from the *filename* of a todo.txt list."""
-        self.todo_filename = os.path.abspath(todo_filename)  # absolute path!
+        self.todo_filename = os.path.abspath(file_name)  # absolute path!
         self.todo_path = os.path.dirname(self.todo_filename) # useful
 
         try:
