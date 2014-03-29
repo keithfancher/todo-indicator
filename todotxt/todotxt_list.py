@@ -74,9 +74,5 @@ class TodoTxtList(object):
         pass
     def sort_list(self):
         pass
-    def build_list_from_text(self, list_text):
-        pass
-    def read_from_file(self):
-        pass
     def write_to_file(self):
         pass
