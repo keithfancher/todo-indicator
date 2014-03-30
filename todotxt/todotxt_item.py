@@ -17,9 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+import functools
 import re
 
 
+@functools.total_ordering
 class TodoTxtItem(object):
 
     def __init__(self, text=None, priority=None, is_completed=False):
@@ -58,3 +60,38 @@ class TodoTxtItem(object):
             output = output + '(' + self.priority + ') '
 
         return output + self.text
+
+    def has_priority(self):
+        """This is useful when sorting list items."""
+        return self.priority != None
+
+    def __eq__(self, other):
+        return self.text == other.text and \
+               self.is_completed == other.is_completed and \
+               self.priority == other.priority
+
+    def __lt__(self, other):
+        # First sort by completion:
+        if not self.is_completed and other.is_completed:
+            return True
+        if self.is_completed and not other.is_completed:
+            return False
+
+        # Then sort by whether an item is prioritized:
+        if self.has_priority() and not other.has_priority():
+            return True
+        if not self.has_priority() and other.has_priority():
+            return False
+
+        # Now we know both have priority, so sort by that next:
+        if self.priority < other.priority:
+            return True
+        if self.priority > other.priority:
+            return False
+
+        # Priorities are equal, so sort by actual text:
+        if self.text < other.text:
+            return True
+
+        # Otherwise this item is not less than t'other!
+        return False
