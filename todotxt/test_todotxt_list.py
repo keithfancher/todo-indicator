@@ -114,6 +114,46 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual(None, test_list.items[2].priority)
         self.assertTrue(test_list.items[2].is_completed)
 
+    def test_sort_list(self):
+        todo_text = "x (C) No biggie\n(Z) aaaaa\nNothing\n(B) hey hey\n(Z) bbbbb\n(A) aaaaa\nx Item three\n\nx (B) Done it\n"
+        test_list = TodoTxtList(None, todo_text)
+
+        test_list.sort_list()
+
+        self.assertEqual(8, test_list.num_items())
+
+        self.assertEqual('aaaaa', test_list.items[0].text)
+        self.assertEqual('A', test_list.items[0].priority)
+        self.assertFalse(test_list.items[0].is_completed)
+
+        self.assertEqual('hey hey', test_list.items[1].text)
+        self.assertEqual('B', test_list.items[1].priority)
+        self.assertFalse(test_list.items[1].is_completed)
+
+        self.assertEqual('aaaaa', test_list.items[2].text)
+        self.assertEqual('Z', test_list.items[2].priority)
+        self.assertFalse(test_list.items[2].is_completed)
+
+        self.assertEqual('bbbbb', test_list.items[3].text)
+        self.assertEqual('Z', test_list.items[3].priority)
+        self.assertFalse(test_list.items[3].is_completed)
+
+        self.assertEqual('Nothing', test_list.items[4].text)
+        self.assertEqual(None, test_list.items[4].priority)
+        self.assertFalse(test_list.items[4].is_completed)
+
+        self.assertEqual('Done it', test_list.items[5].text)
+        self.assertEqual('B', test_list.items[5].priority)
+        self.assertTrue(test_list.items[5].is_completed)
+
+        self.assertEqual('No biggie', test_list.items[6].text)
+        self.assertEqual('C', test_list.items[6].priority)
+        self.assertTrue(test_list.items[6].is_completed)
+
+        self.assertEqual('Item three', test_list.items[7].text)
+        self.assertEqual(None, test_list.items[7].priority)
+        self.assertTrue(test_list.items[7].is_completed)
+
 
 if __name__ == '__main__':
     unittest.main()

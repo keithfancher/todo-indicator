@@ -80,6 +80,8 @@ class TodoTxtList(object):
                 item.is_completed = True
 
     def sort_list(self):
-        pass
+        """Thank you for being magical, magic methods."""
+        self.items = sorted(self.items)
+
     def write_to_file(self):
         pass
