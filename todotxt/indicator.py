@@ -26,7 +26,7 @@ from gi.repository import Gtk, GObject
 from gi.repository import AppIndicator3 as appindicator
 
 
-PANEL_ICON = "gtg-panel"
+PANEL_ICON = os.path.dirname(os.path.realpath(__file__)) + "/img/panel-icon-light.svg"
 DEFAULT_EDITOR = "xdg-open"
 
 
