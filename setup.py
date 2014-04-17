@@ -27,6 +27,8 @@ setup(name='todo_indicator',
       author_email='keith.fancher@gmail.com',
       license='GPLv3',
       url='https://github.com/keithfancher/Todo-Indicator',
+      packages=['todotxt'],
+      package_data={'todotxt': ['img/*']},
       scripts=['todo_indicator.py'],
       install_requires=[
           'argparse',
