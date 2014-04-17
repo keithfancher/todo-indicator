@@ -16,20 +16,33 @@ REQUIREMENTS
 * some kind of widget/tray/app/whatever that loves Ubuntu app indicators
 
 
-INSTALLATION
-------------
+RUNNING THE INDICATOR DIRECTLY
+------------------------------
 You can clone the git repo thusly:
 
     $ git clone git://github.com/keithfancher/Todo-Indicator.git
 
-Then just copy the `todo_indicator.py` file somewhere in your path and run it!
+Then just run the `todo_indicator.py` script within that directory:
 
+    $ ./todo_indicator.py ~/todo.txt
+
+
+INSTALLING THE SCRIPT WITH PIP
+------------------------------
 You can also install with pip:
 
-    $ pip install https://github.com/keithfancher/Todo-Indicator/tarball/master
+    $ sudo pip install https://github.com/keithfancher/Todo-Indicator/tarball/master
+
+This will install the required files in the default prefix (usually
+`/usr/local/lib` and `/usr/local/bin`). You should then find the
+`todo_indicator.py` script in your path, and can run it like so:
+
+    $ todo_indicator.py ~/todo.txt
 
 Note that pip doesn't (and can't) know about the python-gi requirement, so you
-may have to install that one by hand if your distro doesn't have you covered.
+may have to install that one by hand if your distro doesn't have you covered:
+
+    $ sudo apt-get install python-gi
 
 
 HOW DO I USE IT?
