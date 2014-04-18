@@ -27,6 +27,8 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-e', '--editor', action='store',
                         help='your favorite text editor')
+    parser.add_argument('-i', '--invert', action='store_true', default=False,
+                        help='invert the panel icon color')
     parser.add_argument('todo_filename', action='store',
                         help='your todo.txt file')
     return parser.parse_args()
@@ -35,7 +37,7 @@ def get_args():
 def main():
     """My main() man."""
     args = get_args()
-    ind = TodoIndicator(args.todo_filename, args.editor)
+    ind = TodoIndicator(args.todo_filename, args.editor, args.invert)
     ind.main()
 
 

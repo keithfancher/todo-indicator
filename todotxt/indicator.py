@@ -26,19 +26,27 @@ from gi.repository import Gtk, GObject
 from gi.repository import AppIndicator3 as appindicator
 
 
-PANEL_ICON = os.path.dirname(os.path.realpath(__file__)) + "/img/panel-icon-light.svg"
+IMG_PATH = os.path.dirname(os.path.realpath(__file__)) + '/img/'
+LIGHT_ICON = IMG_PATH + 'panel-icon-light.svg' # Light icon for dark panel background
+DARK_ICON = IMG_PATH + 'panel-icon-dark.svg'   # Dark icon for light panel background
 DEFAULT_EDITOR = "xdg-open"
 
 
 class TodoIndicator(object):
 
-    def __init__(self, todo_filename, text_editor=None):
+    def __init__(self, todo_filename, text_editor=None, invert_icon=False):
         """Sets the filename, loads the list of items from the file, builds the
         indicator."""
         if text_editor:
             self.text_editor = text_editor
         else:
             self.text_editor = DEFAULT_EDITOR
+
+        if invert_icon:
+            self.icon_path = DARK_ICON
+        else:
+            # Default to light icon, assuming dark panel background:
+            self.icon_path = LIGHT_ICON
 
         # Menu items (aside from the todo items themselves). An association of
         # text and callback functions. Can't use a dict because we need to
@@ -156,7 +164,7 @@ class TodoIndicator(object):
         """Builds the Indicator object."""
         if not hasattr(self, 'ind'): # self.ind needs to be created
             self.ind = appindicator.Indicator.new("todo-txt-indicator",
-                PANEL_ICON, appindicator.IndicatorCategory.OTHER)
+                self.icon_path, appindicator.IndicatorCategory.OTHER)
             self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # make sure the list is loaded
