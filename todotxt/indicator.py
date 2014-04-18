@@ -152,7 +152,6 @@ class TodoIndicator(object):
 
     def _refresh_handler(self, menu_item):
         """Manually refreshes the list."""
-        # TODO: gives odd warning about removing a child...
         self._build_indicator() # rebuild indicator
 
     def _quit_handler(self, menu_item):
