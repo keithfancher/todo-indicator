@@ -27,8 +27,8 @@ Then just run the `todo_indicator.py` script within that directory:
     $ ./todo_indicator.py ~/todo.txt
 
 
-INSTALLING THE SCRIPT WITH PIP
-------------------------------
+INSTALLING THE INDICATOR WITH PIP
+---------------------------------
 You can also install with pip:
 
     $ sudo pip install https://github.com/keithfancher/Todo-Indicator/tarball/master
@@ -77,6 +77,14 @@ I'm sorry! In that case, pass your favorite editor to `todo_indicator.py` on the
 command line, like so:
 
     $ ./todo_indicator.py -e gvim ~/todo.txt
+
+
+THE ICON LOOKS UGLY ON MY LIGHT-COLORED PANEL
+---------------------------------------------
+Hey, no problem. Run the indicator with the `-i` or `--invert` command-line
+option to use a dark icon, which will look much snazzier on a light panel:
+
+    $ ./todo_indicator.py -i ~/todo.txt
 
 
 WHAT ELSE?
