@@ -176,8 +176,6 @@ class TodoIndicator(object):
                 menu_item = Gtk.MenuItem(todo_item.to_string())
                 if todo_item.is_completed: # gray out completed items
                     menu_item.set_sensitive(False)
-                #if todo_item[0:2] == 'x ': # gray out completed items
-                    #menu_item.set_sensitive(False)
                 menu_item.connect("activate", self._check_off_handler)
                 menu_item.show()
                 menu.append(menu_item)
