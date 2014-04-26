@@ -17,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import fileinput
 import os
 import pyinotify
 import sys
@@ -116,16 +115,6 @@ class TodoIndicator(object):
         """Populates the list of todo items from the todo file."""
         # TODO: catch IOError here
         self.todo_list.reload_from_file()
-        #try:
-            #with open(self.todo_filename, 'a+') as f:
-                #todo_list = f.read().split("\n")
-                ## kill empty items/lines, sort list alphabetically (but with
-                ## checked-off items bumped to end of the list):
-                #self.todo_list = sorted(filter(None, todo_list),
-                    #key=lambda a: 'z' * 10 + a if a[:2] == 'x ' else a)
-        #except IOError:
-            #print "Error opening file:\n" + self.todo_filename
-            #sys.exit(1)
 
     def _check_off_item_with_label(self, label):
         """Checks off the item in our list that matches the clicked label. If
@@ -134,20 +123,9 @@ class TodoIndicator(object):
         self.todo_list.mark_item_completed_with_full_text(label)
         self.todo_list.write_to_file()
 
-        #for line in fileinput.input(self.todo_filename, inplace=1):
-            #if line.strip() == label.strip():
-                #print "x " + line, # magic!
-            #else:
-                #print line,
-
     def _remove_checked_off_items(self):
         """Remove checked items from the file itself."""
         # TODO TODO TODO
-        #for line in fileinput.input(self.todo_filename, inplace=1):
-            #if line[:2] == 'x ':
-                #pass
-            #else:
-                #print line,
 
     def _check_off_handler(self, menu_item):
         """Callback to check items off the list."""
