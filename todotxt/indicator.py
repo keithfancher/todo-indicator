@@ -166,6 +166,7 @@ class TodoIndicator(object):
             self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # make sure the list is loaded
+        # TODO: don't really need to do this every time anymore...
         self._load_todo_file()
 
         # create todo menu items
