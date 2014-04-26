@@ -25,6 +25,8 @@ import sys
 from gi.repository import Gtk, GObject
 from gi.repository import AppIndicator3 as appindicator
 
+from todotxt_list import TodoTxtList
+
 
 IMG_PATH = os.path.dirname(os.path.realpath(__file__)) + '/img/'
 LIGHT_ICON = IMG_PATH + 'panel-icon-light.svg' # Light icon for dark panel background
@@ -48,6 +50,9 @@ class TodoIndicator(object):
             # Default to light icon, assuming dark panel background:
             self.icon_path = LIGHT_ICON
 
+        # Initialize the main list object:
+        self.todo_list = TodoTxtList(todo_filename)
+
         # Menu items (aside from the todo items themselves). An association of
         # text and callback functions. Can't use a dict because we need to
         # preserve order.
@@ -58,8 +63,11 @@ class TodoIndicator(object):
 
         GObject.threads_init() # necessary for threaded notifications
         self.list_updated_flag = False # does the GUI need to catch up?
+
+        # TODO: probably no longer needed?
         self.todo_filename = os.path.abspath(todo_filename) # absolute path!
         self.todo_path = os.path.dirname(self.todo_filename) # useful
+
         self._build_indicator() # creates self.ind
 
         # Watch for modifications of the todo file with pyinotify. We have to
@@ -106,35 +114,40 @@ class TodoIndicator(object):
 
     def _load_todo_file(self):
         """Populates the list of todo items from the todo file."""
-        try:
-            with open(self.todo_filename, 'a+') as f:
-                todo_list = f.read().split("\n")
-                # kill empty items/lines, sort list alphabetically (but with
-                # checked-off items bumped to end of the list):
-                self.todo_list = sorted(filter(None, todo_list),
-                    key=lambda a: 'z' * 10 + a if a[:2] == 'x ' else a)
-        except IOError:
-            print "Error opening file:\n" + self.todo_filename
-            sys.exit(1)
+        # TODO: catch IOError here
+        self.todo_list.reload_from_file()
+        #try:
+            #with open(self.todo_filename, 'a+') as f:
+                #todo_list = f.read().split("\n")
+                ## kill empty items/lines, sort list alphabetically (but with
+                ## checked-off items bumped to end of the list):
+                #self.todo_list = sorted(filter(None, todo_list),
+                    #key=lambda a: 'z' * 10 + a if a[:2] == 'x ' else a)
+        #except IOError:
+            #print "Error opening file:\n" + self.todo_filename
+            #sys.exit(1)
 
     def _check_off_item_with_label(self, label):
-        """Matches the given todo item, finds it in the file, and "checks it
-        off" by adding "x " to the beginning of the string. If you have
-        multiple todo items that are exactly the same, this will check them all
-        off. Also, you're stupid for doing that."""
-        for line in fileinput.input(self.todo_filename, inplace=1):
-            if line.strip() == label.strip():
-                print "x " + line, # magic!
-            else:
-                print line,
+        """Checks off the item in our list that matches the clicked label. If
+        you have multiple todo items that are exactly the same, this will check
+        them all off. Also, you're stupid for doing that."""
+        self.todo_list.mark_item_completed_with_full_text(label)
+        self.todo_list.write_to_file()
+
+        #for line in fileinput.input(self.todo_filename, inplace=1):
+            #if line.strip() == label.strip():
+                #print "x " + line, # magic!
+            #else:
+                #print line,
 
     def _remove_checked_off_items(self):
         """Remove checked items from the file itself."""
-        for line in fileinput.input(self.todo_filename, inplace=1):
-            if line[:2] == 'x ':
-                pass
-            else:
-                print line,
+        # TODO TODO TODO
+        #for line in fileinput.input(self.todo_filename, inplace=1):
+            #if line[:2] == 'x ':
+                #pass
+            #else:
+                #print line,
 
     def _check_off_handler(self, menu_item):
         """Callback to check items off the list."""
@@ -171,11 +184,13 @@ class TodoIndicator(object):
 
         # create todo menu items
         menu = Gtk.Menu()
-        if self.todo_list:
-            for todo_item in self.todo_list:
-                menu_item = Gtk.MenuItem(todo_item)
-                if todo_item[0:2] == 'x ': # gray out completed items
+        if self.todo_list.items:
+            for todo_item in self.todo_list.items:
+                menu_item = Gtk.MenuItem(todo_item.to_string())
+                if todo_item.is_completed: # gray out completed items
                     menu_item.set_sensitive(False)
+                #if todo_item[0:2] == 'x ': # gray out completed items
+                    #menu_item.set_sensitive(False)
                 menu_item.connect("activate", self._check_off_handler)
                 menu_item.show()
                 menu.append(menu_item)
