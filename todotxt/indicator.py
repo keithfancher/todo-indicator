@@ -66,9 +66,16 @@ class TodoIndicator(object):
 
         self._build_indicator() # creates self.ind
 
-        # Watch for modifications of the todo file with pyinotify. We have to
-        # watch the entire path, since inotify is very inconsistent about what
-        # events it catches for a single file.
+        self._setup_inotify()
+
+        # Add timeout function, allows threading to not fart all over itself.
+        # Can't use Gobject.idle_add() since it rudely 100%s the CPU.
+        GObject.timeout_add(500, self._update_if_todo_file_changed)
+
+    def _setup_inotify(self):
+        """Watch for modifications of the todo file with pyinotify. We have to
+        watch the entire path, since inotify is very inconsistent about what
+        events it catches for a single file."""
         self.wm = pyinotify.WatchManager()
         self.notifier = pyinotify.ThreadedNotifier(self.wm,
                                                    self._process_inotify_event)
@@ -79,10 +86,6 @@ class TodoIndicator(object):
         todo_path = os.path.dirname(self.todo_list.todo_filename)
         self.wm.add_watch(todo_path,
                           pyinotify.IN_MODIFY | pyinotify.IN_MOVED_TO)
-
-        # Add timeout function, allows threading to not fart all over itself.
-        # Can't use Gobject.idle_add() since it rudely 100%s the CPU.
-        GObject.timeout_add(500, self._update_if_todo_file_changed)
 
     def _update_if_todo_file_changed(self):
         """This will be called by the main GTK thread every half second or so.
