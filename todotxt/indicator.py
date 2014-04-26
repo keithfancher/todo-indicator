@@ -37,7 +37,7 @@ class TodoIndicator(object):
 
     def __init__(self, todo_filename, text_editor=None, invert_icon=False):
         """Sets the filename, loads the list of items from the file, builds the
-        indicator."""
+        indicator, &c."""
         if text_editor:
             self.text_editor = text_editor
         else:
@@ -52,19 +52,19 @@ class TodoIndicator(object):
         # Initialize the main list object:
         self.todo_list = TodoTxtList(todo_filename)
 
-        # Menu items (aside from the todo items themselves). An association of
-        # text and callback functions. Can't use a dict because we need to
-        # preserve order.
-        self._menu_items = [ ('Edit todo.txt', self._edit_handler),
-                             ('Clear completed', self._clear_completed_handler),
-                             ('Refresh', self._refresh_handler),
-                             ('Quit', self._quit_handler) ]
+        # Non-list menu items:
+        self._setup_menu_items()
 
-        GObject.threads_init() # necessary for threaded notifications
-        self.list_updated_flag = False # does the GUI need to catch up?
+        # Necessary for threaded notifications:
+        GObject.threads_init()
 
-        self._build_indicator() # creates self.ind
+        # Does the GUI need to catch up with our list file?
+        self.list_updated_flag = False
 
+        # Creates self.ind, the main indicator object:
+        self._build_indicator()
+
+        # Starts up inotify, watches our list file:
         self._setup_inotify()
 
         # Add timeout function, allows threading to not fart all over itself.
@@ -85,6 +85,15 @@ class TodoIndicator(object):
         todo_path = os.path.dirname(self.todo_list.todo_filename)
         self.wm.add_watch(todo_path,
                           pyinotify.IN_MODIFY | pyinotify.IN_MOVED_TO)
+
+    def _setup_menu_items(self):
+        """Menu items (aside from the todo items themselves). An association of
+        text and callback functions. Can't use a dict because we need to
+        preserve order."""
+        self._menu_items = [ ('Edit todo.txt', self._edit_handler),
+                             ('Clear completed', self._clear_completed_handler),
+                             ('Refresh', self._refresh_handler),
+                             ('Quit', self._quit_handler) ]
 
     def _update_if_todo_file_changed(self):
         """This will be called by the main GTK thread every half second or so.
