@@ -30,7 +30,6 @@ class TodoTxtList(object):
         self.items = []
         self.items_as_text = ''
         self.todo_filename = ''
-        self.todo_path = ''
 
         if todo_filename:
             self.init_from_file(todo_filename)
@@ -46,8 +45,6 @@ class TodoTxtList(object):
     def init_from_file(self, file_name):
         """Init the list object from the *filename* of a todo.txt list."""
         self.todo_filename = os.path.abspath(file_name)  # absolute path!
-        # TODO: Move todo_path out of this class, we only need this for inotify
-        self.todo_path = os.path.dirname(self.todo_filename) # useful
 
         try:
             with open(self.todo_filename, 'a+') as f:

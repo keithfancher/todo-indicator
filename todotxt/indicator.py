@@ -64,10 +64,6 @@ class TodoIndicator(object):
         GObject.threads_init() # necessary for threaded notifications
         self.list_updated_flag = False # does the GUI need to catch up?
 
-        # TODO: probably no longer needed?
-        self.todo_filename = os.path.abspath(todo_filename) # absolute path!
-        self.todo_path = os.path.dirname(self.todo_filename) # useful
-
         self._build_indicator() # creates self.ind
 
         # Watch for modifications of the todo file with pyinotify. We have to
@@ -80,7 +76,8 @@ class TodoIndicator(object):
 
         # The IN_MOVED_TO watch catches Dropbox updates, which don't trigger
         # normal IN_MODIFY events.
-        self.wm.add_watch(self.todo_path,
+        todo_path = os.path.dirname(self.todo_list.todo_filename)
+        self.wm.add_watch(todo_path,
                           pyinotify.IN_MODIFY | pyinotify.IN_MOVED_TO)
 
         # Add timeout function, allows threading to not fart all over itself.
@@ -109,7 +106,7 @@ class TodoIndicator(object):
         This function can't explicitly update the GUI since it's on a different
         thread, so it just flips a flag and lets another function called by the
         GTK main loop do the real work."""
-        if event.pathname == self.todo_filename:
+        if event.pathname == self.todo_list.todo_filename:
             self.list_updated_flag = True
 
     def _load_todo_file(self):
@@ -156,7 +153,7 @@ class TodoIndicator(object):
 
     def _edit_handler(self, menu_item):
         """Opens the todo.txt file with selected editor."""
-        os.system(self.text_editor + " " + self.todo_filename)
+        os.system(self.text_editor + " " + self.todo_list.todo_filename)
 
     def _clear_completed_handler(self, menu_item):
         """Remove checked off items, rebuild list menu."""
