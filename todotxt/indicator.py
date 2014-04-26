@@ -20,8 +20,9 @@
 import os
 import pyinotify
 
-from gi.repository import Gtk, GObject
-from gi.repository import AppIndicator3 as appindicator
+from gi.repository import AppIndicator3 as appindicator, \
+                          GObject, \
+                          Gtk
 
 from todotxt_list import TodoTxtList
 
