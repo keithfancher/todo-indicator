@@ -85,6 +85,14 @@ class TodoTxtList(object):
             if item.text == item_text:
                 item.is_completed = True
 
+    def mark_item_completed_with_full_text(self, full_text):
+        """Matches the full text of an item, which includes the priority and
+        completion. This is useful/necessary for matching a list item with its
+        menu item in the UI."""
+        for item in self.items:
+            if item.to_string() == full_text:
+                item.is_completed = True
+
     def sort_list(self):
         """Thank you for being magical, magic methods."""
         self.items = sorted(self.items)
