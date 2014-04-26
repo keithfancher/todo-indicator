@@ -1,6 +1,11 @@
-README.md
 LICENSE
-TODO
+README.md
 sample-todo.txt
 setup.py
+THANKS
+TODO
 todo_indicator.py
+todotxt/__init__.py
+todotxt/indicator.py
+todotxt/img/panel-icon-dark.svg
+todotxt/img/panel-icon-light.svg
