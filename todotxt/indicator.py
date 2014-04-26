@@ -19,7 +19,6 @@
 
 import os
 import pyinotify
-import sys
 
 from gi.repository import Gtk, GObject
 from gi.repository import AppIndicator3 as appindicator
@@ -122,7 +121,6 @@ class TodoIndicator(object):
 
     def _load_todo_file(self):
         """Populates the list of todo items from the todo file."""
-        # TODO: catch IOError here
         self.todo_list.reload_from_file()
 
     def _check_off_item_with_label(self, label):

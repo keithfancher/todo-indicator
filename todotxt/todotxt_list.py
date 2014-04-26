@@ -50,7 +50,6 @@ class TodoTxtList(object):
             with open(self.todo_filename, 'a+') as f:
                 todo_lines = f.read()
         except IOError:
-            # TODO: Consider moving this check into calling class
             print "Error opening file:\n" + self.todo_filename
             sys.exit(1)
 
@@ -108,6 +107,5 @@ class TodoTxtList(object):
             with open(self.todo_filename, 'w') as f:
                 f.write(self.to_text())
         except IOError:
-            # TODO: Consider moving this check into calling class
             print "Error writing to file:\n" + self.todo_filename
             sys.exit(1)
