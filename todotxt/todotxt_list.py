@@ -92,4 +92,11 @@ class TodoTxtList(object):
         return list_text.strip()
 
     def write_to_file(self):
-        pass
+        """Output the list to a file."""
+        try:
+            with open(self.todo_filename, 'w') as f:
+                f.write(self.to_text())
+        except IOError:
+            # TODO: Consider moving this check into calling class
+            print "Error writing to file:\n" + self.todo_filename
+            sys.exit(1)

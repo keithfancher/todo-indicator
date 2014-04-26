@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+import tempfile
 import unittest
 
 from todotxt_list import TodoTxtList
@@ -164,6 +165,19 @@ class TestTodoTxtList(unittest.TestCase):
         expected_output = "(A) Do one thing\n(B) Do another thing\nx One last thing"
         test_list.init_from_text(todo_text)
         self.assertEqual(expected_output, test_list.to_text())
+
+    def test_write_to_file(self):
+        todo_text = "(A) Do one thing\n         (B) Do another thing\n x One last thing"
+        expected_output = "(A) Do one thing\n(B) Do another thing\nx One last thing"
+        test_list = TodoTxtList(None, todo_text)
+
+        # Write to a temporary output file:
+        output_file = tempfile.NamedTemporaryFile(mode='w+')
+        test_list.todo_filename = output_file.name
+        test_list.write_to_file()
+
+        # Now read the file in and see that it all matches up:
+        self.assertEqual(expected_output, output_file.read())
 
 
 if __name__ == '__main__':
