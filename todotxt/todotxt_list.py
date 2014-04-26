@@ -59,6 +59,11 @@ class TodoTxtList(object):
 
         self.init_from_text(todo_lines)
 
+    def reload_from_file(self):
+        """Reload the list from already-set filename."""
+        self.items = [] # Clear out existing items
+        self.init_from_file(self.todo_filename)
+
     def add_item(self, item_text):
         """Turn a line of text into a TodoTxtItem object, then append it to our
         list of those objects."""
