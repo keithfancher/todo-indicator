@@ -154,6 +154,17 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual(None, test_list.items[7].priority)
         self.assertTrue(test_list.items[7].is_completed)
 
+    def test_to_text(self):
+        test_list = TodoTxtList()
+
+        # Empty list yields empty string:
+        self.assertEqual('', test_list.to_text()) 
+
+        todo_text = "(A) Do one thing\n         (B) Do another thing\n x One last thing"
+        expected_output = "(A) Do one thing\n(B) Do another thing\nx One last thing"
+        test_list.init_from_text(todo_text)
+        self.assertEqual(expected_output, test_list.to_text())
+
 
 if __name__ == '__main__':
     unittest.main()

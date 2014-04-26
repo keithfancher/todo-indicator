@@ -46,6 +46,7 @@ class TodoTxtList(object):
     def init_from_file(self, file_name):
         """Init the list object from the *filename* of a todo.txt list."""
         self.todo_filename = os.path.abspath(file_name)  # absolute path!
+        # TODO: Move todo_path out of this class, we only need this for inotify
         self.todo_path = os.path.dirname(self.todo_filename) # useful
 
         try:
@@ -82,6 +83,13 @@ class TodoTxtList(object):
     def sort_list(self):
         """Thank you for being magical, magic methods."""
         self.items = sorted(self.items)
+
+    def to_text(self):
+        """Return the list as plaintext."""
+        list_text = ''
+        for item in self.items:
+            list_text = list_text + item.to_string() + "\n"
+        return list_text.strip()
 
     def write_to_file(self):
         pass
