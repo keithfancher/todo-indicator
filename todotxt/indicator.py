@@ -159,6 +159,18 @@ class TodoIndicator(object):
         self.notifier.stop() # stop watching the file!
         Gtk.main_quit()
 
+    def _build_list_menu_items(self, menu):
+        """Creates menu items for each of our todo list items. Pass it a GTK
+        menu object, it returns that object with menu items added."""
+        for todo_item in self.todo_list.items:
+            menu_item = Gtk.MenuItem(todo_item.to_string())
+            if todo_item.is_completed: # gray out completed items
+                menu_item.set_sensitive(False)
+            menu_item.connect("activate", self._check_off_handler)
+            menu_item.show()
+            menu.append(menu_item)
+        return menu
+
     def _build_indicator(self):
         """Builds the Indicator object."""
         if not hasattr(self, 'ind'): # self.ind needs to be created
@@ -170,18 +182,12 @@ class TodoIndicator(object):
         # TODO: don't really need to do this every time anymore...
         self._load_todo_file()
 
-        # create todo menu items
         menu = Gtk.Menu()
         if self.todo_list.items:
-            for todo_item in self.todo_list.items:
-                menu_item = Gtk.MenuItem(todo_item.to_string())
-                if todo_item.is_completed: # gray out completed items
-                    menu_item.set_sensitive(False)
-                menu_item.connect("activate", self._check_off_handler)
-                menu_item.show()
-                menu.append(menu_item)
-        # empty list
+            # Create todo menu items, if they exist:
+            self._build_list_menu_items(menu)
         else:
+            # If the list is empty, show helpful message:
             menu_item = Gtk.MenuItem('[ No items. Click \'Edit\' to add some! ]')
             menu_item.set_sensitive(False)
             menu_item.show()
