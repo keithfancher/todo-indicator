@@ -104,8 +104,8 @@ class TodoIndicator(object):
             self._build_indicator() # rebuild
             self.list_updated_flag = False # reset flag
 
-        # if we don't explicitly return True here the callback will be removed
-        # from the queue after one call and will never be called again
+        # If we don't explicitly return True here the callback will be removed
+        # from the queue after one call and will never be called again.
         return True
 
     def _process_inotify_event(self, event):
@@ -170,8 +170,7 @@ class TodoIndicator(object):
                 self.icon_path, appindicator.IndicatorCategory.OTHER)
             self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
-        # make sure the list is loaded
-        # TODO: don't really need to do this every time anymore...
+        # Make sure the list is loaded:
         self._load_todo_file()
 
         menu = Gtk.Menu()
@@ -185,19 +184,19 @@ class TodoIndicator(object):
             menu_item.show()
             menu.append(menu_item)
 
-        # add a separator
+        # Add a separator:
         menu_item = Gtk.SeparatorMenuItem()
         menu_item.show()
         menu.append(menu_item)
 
-        # our menu
+        # Our menu:
         for text, callback in self._menu_items:
             menu_item = Gtk.MenuItem(text)
             menu_item.connect("activate", callback)
             menu_item.show()
             menu.append(menu_item)
 
-        # do it!
+        # Do it!
         self.ind.set_menu(menu)
 
     def main(self):
