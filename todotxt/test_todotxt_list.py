@@ -122,7 +122,7 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual(None, test_list.items[7].priority)
         self.assertTrue(test_list.items[7].is_completed)
 
-    def test_remove_items(self):
+    def test_remove_item(self):
         todo_text = "(A) Item one\n(Z) Item two\nx Item three\n\n \n"
         test_list = TodoTxtList(None, todo_text)
 
@@ -137,6 +137,22 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual('Item three', test_list.items[1].text)
         self.assertEqual(None, test_list.items[1].priority)
         self.assertTrue(test_list.items[1].is_completed)
+
+    def test_remove_completed_items(self):
+        todo_text = "(A) Item one\n(Z) Item two\nx Item three\n\n \n"
+        test_list = TodoTxtList(None, todo_text)
+
+        self.assertEqual(3, test_list.num_items())
+        test_list.remove_completed_items()
+        self.assertEqual(2, test_list.num_items())
+
+        self.assertEqual('Item one', test_list.items[0].text)
+        self.assertEqual('A', test_list.items[0].priority)
+        self.assertFalse(test_list.items[0].is_completed)
+
+        self.assertEqual('Item two', test_list.items[1].text)
+        self.assertEqual('Z', test_list.items[1].priority)
+        self.assertFalse(test_list.items[1].is_completed)
 
     def test_mark_item_completed(self):
         todo_text = "(A) Item one\n(Z) Item two\nx Item three\n\n \n"
