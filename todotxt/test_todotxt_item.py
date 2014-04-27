@@ -82,10 +82,10 @@ class TestTodoTxtItem(unittest.TestCase):
 
     def test_to_string(self):
         test_item = TodoTxtItem('This is some task', 'F', True)
-        self.assertEqual(test_item.to_string(), 'x (F) This is some task')
+        self.assertEqual(str(test_item), 'x (F) This is some task')
 
         test_item = TodoTxtItem('This is some task', None, False)
-        self.assertEqual(test_item.to_string(), 'This is some task')
+        self.assertEqual(str(test_item), 'This is some task')
 
     def test_from_string_back_to_string(self):
         original_item = 'x (Z) Here we go again'
@@ -93,10 +93,10 @@ class TestTodoTxtItem(unittest.TestCase):
 
         test_item = TodoTxtItem()
         test_item.init_from_text(original_item)
-        self.assertEqual(original_item, test_item.to_string())
+        self.assertEqual(original_item, str(test_item))
 
         test_item.init_from_text(some_whitespace)
-        self.assertEqual('x (B) This one is pretty weird', test_item.to_string())
+        self.assertEqual('x (B) This one is pretty weird', str(test_item))
 
     def test_equality_check(self):
         item1 = TodoTxtItem('An item', 'A', False)

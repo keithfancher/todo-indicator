@@ -94,25 +94,24 @@ class TodoTxtList(object):
         completion. This is useful/necessary for matching a list item with its
         menu item in the UI."""
         for item in self.items:
-            if item.to_string() == full_text:
+            if str(item) == full_text:
                 item.is_completed = True
 
     def sort_list(self):
         """Thank you for being magical, magic methods."""
         self.items = sorted(self.items)
 
-    def to_text(self):
-        """Return the list as plaintext."""
-        list_text = ''
-        for item in self.items:
-            list_text = list_text + item.to_string() + "\n"
-        return list_text.strip()
-
     def write_to_file(self):
         """Output the list to a file."""
         try:
             with open(self.todo_filename, 'w') as f:
-                f.write(self.to_text())
+                f.write(str(self))
         except IOError:
             print "Error writing to file:\n" + self.todo_filename
             sys.exit(1)
+
+    def __str__(self):
+        list_text = ''
+        for item in self.items:
+            list_text = list_text + str(item) + "\n"
+        return list_text.strip()

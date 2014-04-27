@@ -155,7 +155,7 @@ class TodoIndicator(object):
         """Creates menu items for each of our todo list items. Pass it a GTK
         menu object, it returns that object with menu items added."""
         for todo_item in sorted(self.todo_list.items): # Display items sorted
-            menu_item = Gtk.MenuItem(todo_item.to_string())
+            menu_item = Gtk.MenuItem(str(todo_item))
             if todo_item.is_completed: # gray out completed items
                 menu_item.set_sensitive(False)
             menu_item.connect("activate", self._check_off_handler)

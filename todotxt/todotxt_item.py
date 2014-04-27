@@ -50,7 +50,11 @@ class TodoTxtItem(object):
 
         self.text = item_text
 
-    def to_string(self):
+    def has_priority(self):
+        """This is useful when sorting list items."""
+        return self.priority != None
+
+    def __str__(self):
         if self.is_completed:
             output = 'x '
         else:
@@ -60,10 +64,6 @@ class TodoTxtItem(object):
             output = output + '(' + self.priority + ') '
 
         return output + self.text
-
-    def has_priority(self):
-        """This is useful when sorting list items."""
-        return self.priority != None
 
     def __eq__(self, other):
         return self.text == other.text and \
