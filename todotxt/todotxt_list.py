@@ -72,6 +72,9 @@ class TodoTxtList(object):
     def num_items(self):
         return len(self.items)
 
+    def has_items(self):
+        return self.num_items() > 0
+
     def remove_item(self, item_text):
         """Remove item with matching item text."""
         self.items = filter(lambda x: x.text != item_text, self.items)

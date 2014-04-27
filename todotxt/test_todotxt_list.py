@@ -122,6 +122,13 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual(None, test_list.items[7].priority)
         self.assertTrue(test_list.items[7].is_completed)
 
+    def test_has_items(self):
+        test_list = TodoTxtList()
+        self.assertFalse(test_list.has_items())
+
+        test_list = TodoTxtList(None, 'An item')
+        self.assertTrue(test_list.has_items())
+
     def test_remove_item(self):
         todo_text = "(A) Item one\n(Z) Item two\nx Item three\n\n \n"
         test_list = TodoTxtList(None, todo_text)

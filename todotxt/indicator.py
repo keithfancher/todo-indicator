@@ -183,7 +183,7 @@ class TodoIndicator(object):
         self._load_todo_file()
 
         menu = Gtk.Menu()
-        if self.todo_list.items:
+        if self.todo_list.has_items():
             # Create todo menu items, if they exist:
             self._build_list_menu_items(menu)
         else:
