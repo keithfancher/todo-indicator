@@ -124,21 +124,12 @@ class TodoIndicator(object):
         """Populates the list of todo items from the todo file."""
         self.todo_list.reload_from_file()
 
-    def _check_off_item_with_label(self, label):
+    def _check_off_handler(self, menu_item):
         """Checks off the item in our list that matches the clicked label. If
         you have multiple todo items that are exactly the same, this will check
         them all off. Also, you're stupid for doing that."""
-        self.todo_list.mark_item_completed_with_full_text(label)
+        self.todo_list.mark_item_completed_with_full_text(menu_item.get_label())
         self.todo_list.write_to_file()
-
-    def _remove_checked_off_items(self):
-        """Remove checked items from the file itself."""
-        self.todo_list.remove_completed_items()
-        self.todo_list.write_to_file()
-
-    def _check_off_handler(self, menu_item):
-        """Callback to check items off the list."""
-        self._check_off_item_with_label(menu_item.get_label()) # write file
         self._build_indicator() # rebuild!
 
     def _edit_handler(self, menu_item):
@@ -147,7 +138,8 @@ class TodoIndicator(object):
 
     def _clear_completed_handler(self, menu_item):
         """Remove checked off items, rebuild list menu."""
-        self._remove_checked_off_items()
+        self.todo_list.remove_completed_items()
+        self.todo_list.write_to_file()
         self._build_indicator()
 
     def _refresh_handler(self, menu_item):
