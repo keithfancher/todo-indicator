@@ -51,8 +51,6 @@ class TodoIndicator(object):
 
         # Initialize the main list object:
         self.todo_list = TodoTxtList(todo_filename)
-        # TODO: keep list sorted implicitly?
-        self.todo_list.sort_list()
 
         # Non-list menu items:
         self._setup_menu_items()
@@ -125,14 +123,12 @@ class TodoIndicator(object):
     def _load_todo_file(self):
         """Populates the list of todo items from the todo file."""
         self.todo_list.reload_from_file()
-        self.todo_list.sort_list()
 
     def _check_off_item_with_label(self, label):
         """Checks off the item in our list that matches the clicked label. If
         you have multiple todo items that are exactly the same, this will check
         them all off. Also, you're stupid for doing that."""
         self.todo_list.mark_item_completed_with_full_text(label)
-        self.todo_list.sort_list()
         self.todo_list.write_to_file()
 
     def _remove_checked_off_items(self):
@@ -166,7 +162,7 @@ class TodoIndicator(object):
     def _add_list_menu_items(self, menu):
         """Creates menu items for each of our todo list items. Pass it a GTK
         menu object, it returns that object with menu items added."""
-        for todo_item in self.todo_list.items:
+        for todo_item in sorted(self.todo_list.items): # Display items sorted
             menu_item = Gtk.MenuItem(todo_item.to_string())
             if todo_item.is_completed: # gray out completed items
                 menu_item.set_sensitive(False)
