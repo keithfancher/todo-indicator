@@ -133,7 +133,8 @@ class TodoIndicator(object):
 
     def _remove_checked_off_items(self):
         """Remove checked items from the file itself."""
-        # TODO TODO TODO
+        self.todo_list.remove_completed_items()
+        self.todo_list.write_to_file()
 
     def _check_off_handler(self, menu_item):
         """Callback to check items off the list."""
