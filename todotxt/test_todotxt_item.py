@@ -98,6 +98,22 @@ class TestTodoTxtItem(unittest.TestCase):
         test_item.init_from_text(some_whitespace)
         self.assertEqual('x (B) This one is pretty weird', test_item.to_string())
 
+    def test_equality_check(self):
+        item1 = TodoTxtItem('An item', 'A', False)
+        item2 = TodoTxtItem('An item', 'A', False)
+        self.assertEqual(item1, item2)
+
+    def test_sort_by_priority(self):
+        item1 = TodoTxtItem('An item', 'A', False)
+        item2 = TodoTxtItem('An item', 'Z', False)
+        self.assertTrue(item2 > item1)
+        self.assertTrue(item2 >= item2)
+
+    def test_sort_by_text(self):
+        item1 = TodoTxtItem('aaaaa', 'A', False)
+        item2 = TodoTxtItem('zzzzz', 'A', False)
+        self.assertTrue(item1 < item2)
+        self.assertTrue(item1 <= item2)
 
 if __name__ == '__main__':
     unittest.main()
