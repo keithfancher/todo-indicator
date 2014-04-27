@@ -120,10 +120,6 @@ class TodoIndicator(object):
         if event.pathname == self.todo_list.todo_filename:
             self.list_updated_flag = True
 
-    def _load_todo_file(self):
-        """Populates the list of todo items from the todo file."""
-        self.todo_list.reload_from_file()
-
     def _check_off_handler(self, menu_item):
         """Checks off the item in our list that matches the clicked label. If
         you have multiple todo items that are exactly the same, this will check
@@ -171,7 +167,7 @@ class TodoIndicator(object):
             self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # Make sure the list is loaded:
-        self._load_todo_file()
+        self.todo_list.reload_from_file()
 
         menu = Gtk.Menu()
         if self.todo_list.has_items():
