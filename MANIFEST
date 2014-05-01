@@ -3,9 +3,12 @@ README.md
 sample-todo.txt
 setup.py
 THANKS
-TODO
 todo_indicator.py
 todotxt/__init__.py
 todotxt/indicator.py
+todotxt/item.py
+todotxt/list.py
+todotxt/test_item.py
+todotxt/test_list.py
 todotxt/img/panel-icon-dark.svg
 todotxt/img/panel-icon-light.svg
