@@ -33,7 +33,7 @@ DARK_ICON = IMG_PATH + 'panel-icon-dark.svg'   # Dark icon for light panel backg
 DEFAULT_EDITOR = "xdg-open"
 
 
-class TodoIndicator(object):
+class TodoTxtIndicator(object):
 
     def __init__(self, todo_filename, text_editor=None, invert_icon=False):
         """Sets the filename, loads the list of items from the file, builds the

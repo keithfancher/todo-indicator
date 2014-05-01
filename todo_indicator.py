@@ -19,7 +19,7 @@
 
 import argparse
 
-from todotxt.indicator import TodoIndicator
+from todotxt.indicator import TodoTxtIndicator
 
 
 def get_args():
@@ -37,7 +37,7 @@ def get_args():
 def main():
     """My main() man."""
     args = get_args()
-    ind = TodoIndicator(args.todo_filename, args.editor, args.invert)
+    ind = TodoTxtIndicator(args.todo_filename, args.editor, args.invert)
     ind.main()
 
 
