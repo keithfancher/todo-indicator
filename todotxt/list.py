@@ -20,7 +20,7 @@
 import os
 import sys
 
-from todotxt_item import TodoTxtItem
+from item import TodoTxtItem
 
 
 class TodoTxtList(object):

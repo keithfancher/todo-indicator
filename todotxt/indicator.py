@@ -24,7 +24,7 @@ from gi.repository import AppIndicator3 as appindicator, \
                           GObject, \
                           Gtk
 
-from todotxt_list import TodoTxtList
+from list import TodoTxtList
 
 
 IMG_PATH = os.path.dirname(os.path.realpath(__file__)) + '/img/'
