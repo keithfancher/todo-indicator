@@ -47,9 +47,8 @@ class TodoTxtList(object):
         self.todo_filename = os.path.abspath(file_name)  # absolute path!
 
         try:
-            f=open(self.todo_filename, "r+")
-            todo_lines = f.read()
-            f.close()
+            with open(self.todo_filename, 'r+') as f:
+                todo_lines = f.read()
         except IOError:
             print ("Error opening file:\n" + self.todo_filename)
             sys.exit(1)
