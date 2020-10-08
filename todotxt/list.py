@@ -20,7 +20,7 @@
 import os
 import sys
 
-from item import TodoTxtItem
+from todotxt.item import TodoTxtItem
 
 
 class TodoTxtList(object):
@@ -47,10 +47,11 @@ class TodoTxtList(object):
         self.todo_filename = os.path.abspath(file_name)  # absolute path!
 
         try:
-            with open(self.todo_filename, 'a+') as f:
-                todo_lines = f.read()
+            f=open(self.todo_filename, "r+")
+            todo_lines = f.read()
+            f.close()
         except IOError:
-            print "Error opening file:\n" + self.todo_filename
+            print ("Error opening file:\n" + self.todo_filename)
             sys.exit(1)
 
         self.init_from_text(todo_lines)
@@ -107,7 +108,7 @@ class TodoTxtList(object):
             with open(self.todo_filename, 'w') as f:
                 f.write(str(self))
         except IOError:
-            print "Error writing to file:\n" + self.todo_filename
+            print ("Error writing to file:\n" + self.todo_filename)
             sys.exit(1)
 
     def __str__(self):
