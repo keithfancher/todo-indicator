@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-# Copyright 2012-2014 Keith Fancher
+# Copyright 2012-2014, 2022 Keith Fancher
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
