@@ -9,7 +9,7 @@ here: http://todotxt.com/
 
 REQUIREMENTS
 ------------
-* python (python 3 for todo_indicator > 0.5, python 2 for older versions)
+* python (python3 for todo_indicator >= 0.6, python2 for older versions)
 * pyinotify
 * python-gi
 * argparse (standard with Python 2.7+)

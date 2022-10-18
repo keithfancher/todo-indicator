@@ -21,7 +21,7 @@ from distutils.core import setup
 
 
 setup(name='todo_indicator',
-      version='0.5.0',
+      version='0.6.0',
       description='Ubuntu app indicator for todo.txt-style todo lists',
       author='Keith Fancher',
       author_email='keith.fancher@gmail.com',
