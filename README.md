@@ -9,11 +9,18 @@ here: http://todotxt.com/
 
 REQUIREMENTS
 ------------
-* python
+* python (python 3 for todo_indicator > 0.5, python 2 for older versions)
 * pyinotify
-* argparse (standard with Python 2.7+)
 * python-gi
+* argparse (standard with Python 2.7+)
 * some kind of widget/tray/app/whatever that loves Ubuntu app indicators
+
+This should ensure you have everything you need:
+
+    $ sudo apt install python3-pyinotify python3-gi gir1.2-appindicator3-0.1 
+
+(Above verified working on Ubuntu 20.04. I can't speak for other versions or
+distros, but it will likely be something similar.)
 
 
 RUNNING THE INDICATOR DIRECTLY
@@ -22,7 +29,8 @@ You can clone the git repo thusly:
 
     $ git clone git://github.com/keithfancher/Todo-Indicator.git
 
-Then just run the `todo_indicator.py` script within that directory:
+Then, after installing the dependencies as described above, just run the
+`todo_indicator.py` script within that directory:
 
     $ ./todo_indicator.py ~/todo.txt
 
@@ -39,10 +47,18 @@ This will install the required files in the default prefix (usually
 
     $ todo_indicator.py ~/todo.txt
 
-Note that pip doesn't (and can't) know about the python-gi requirement, so you
-may have to install that one by hand if your distro doesn't have you covered:
+You can also use pip to uninstall:
 
-    $ sudo apt-get install python-gi
+    $ sudo pip uninstall todo_indicator
+
+Note that pip doesn't (and can't) know about the `python-gi` requirement, so
+you may have to install that one by hand if your distro doesn't have you
+covered. For Ubuntu 20.04, that looks like:
+
+    $ sudo apt install python3-gi gir1.2-appindicator3-0.1 
+
+In fact, you're probably better off installing all the dependencies via `apt`
+as described in the "Requirements" section above.
 
 
 HOW DO I USE IT?
@@ -85,6 +101,13 @@ Hey, no problem. Run the indicator with the `-i` or `--invert` command-line
 option to use a dark icon, which will look much snazzier on a light panel:
 
     $ ./todo_indicator.py -i ~/todo.txt
+
+
+RUNNING THE UNIT TESTS
+----------------------
+Good for you! It's easy. From the project's root directory:
+
+    $ python -m unittest discover todotxt
 
 
 WHAT ELSE?
