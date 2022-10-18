@@ -83,11 +83,12 @@ class TodoTxtItem(object):
         if not self.has_priority() and other.has_priority():
             return False
 
-        # Now we know both have priority, so sort by that next:
-        if self.priority < other.priority:
-            return True
-        if self.priority > other.priority:
-            return False
+        if self.has_priority() and other.has_priority():
+            # Now we know both have priority, so sort by that next:
+            if self.priority < other.priority:
+                return True
+            if self.priority > other.priority:
+                return False
 
         # Priorities are equal, so sort by actual text:
         if self.text < other.text:
