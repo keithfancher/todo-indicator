@@ -19,6 +19,10 @@
 
 import os
 import pyinotify
+import gi
+
+# Required before importing `AppIndicator3` below:
+gi.require_version('AppIndicator3', '0.1')
 
 from gi.repository import AppIndicator3 as appindicator, \
                           GObject, \
