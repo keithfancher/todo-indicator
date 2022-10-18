@@ -77,11 +77,11 @@ class TodoTxtList(object):
 
     def remove_item(self, item_text):
         """Remove item with matching item text."""
-        self.items = filter(lambda x: x.text != item_text, self.items)
+        self.items = [x for x in self.items if x.text != item_text]
 
     def remove_completed_items(self):
         """Remove all completed items from todo list."""
-        self.items = filter(lambda x: x.is_completed == False, self.items)
+        self.items = [x for x in self.items if x.is_completed == False]
 
     def mark_item_completed(self, item_text):
         """Mark item with matching text completed."""
