@@ -1,9 +1,8 @@
 (A) Do that really important thing
-(D) Summon AppIndicator documentation from my ass
+(D) Remember how Python works
 (A) This other important thing
 (B) Walk the cat
 
 Something with no priority!
 (C) Cook the dog
 x Be annoyed at GTK3 docs
-x Something I already did
