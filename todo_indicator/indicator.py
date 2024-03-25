@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-
-
 # Copyright 2012-2014, 2022 Keith Fancher
 #
 # This program is free software: you can redistribute it and/or modify
