@@ -80,7 +80,7 @@ class TodoTxtList(object):
 
     def remove_completed_items(self):
         """Remove all completed items from todo list."""
-        self.items = [x for x in self.items if x.is_completed == False]
+        self.items = [x for x in self.items if not x.is_completed]
 
     def mark_item_completed(self, item_text):
         """Mark item with matching text completed."""

@@ -25,6 +25,9 @@ import pyinotify
 # Required before importing `AppIndicator3` below:
 gi.require_version("AppIndicator3", "0.1")
 
+# Stop `ruff` from complaining about these imports not being at the top. They can't be :')
+# ruff: noqa: E402
+
 from gi.repository import AppIndicator3 as appindicator
 from gi.repository import GObject, Gtk
 

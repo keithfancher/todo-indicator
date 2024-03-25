@@ -51,7 +51,7 @@ class TodoTxtItem(object):
 
     def has_priority(self):
         """This is useful when sorting list items."""
-        return self.priority != None
+        return self.priority is not None
 
     def __str__(self):
         if self.is_completed:
