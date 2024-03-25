@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "todo-indicator"
+version = "0.6.0"
+description = "An Ubuntu app indicator for todo.txt-style todo lists"
+authors = [
+  {name="Keith Fancher"},
+]
+requires-python = ">= 3"
+dependencies = [
+  "pyinotify",
+]
+readme = "README.md"
+keywords = ["todo.txt", "todo", "indicator", "appindicator"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+GitHub = "https://github.com/keithfancher/todo-indicator"
+
+[project.scripts]
+todo-indicator = "todo_indicator.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["todo_indicator"]
