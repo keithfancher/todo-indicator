@@ -19,7 +19,7 @@
 
 import unittest
 
-from item import TodoTxtItem
+from todo_indicator.todotxt.item import TodoTxtItem
 
 
 class TestTodoTxtItem(unittest.TestCase):

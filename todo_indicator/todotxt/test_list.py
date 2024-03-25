@@ -20,7 +20,7 @@
 import tempfile
 import unittest
 
-from list import TodoTxtList
+from todo_indicator.todotxt.list import TodoTxtList
 
 
 class TestTodoTxtList(unittest.TestCase):
