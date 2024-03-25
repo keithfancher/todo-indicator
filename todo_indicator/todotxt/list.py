@@ -24,12 +24,11 @@ from todo_indicator.todotxt.item import TodoTxtItem
 
 
 class TodoTxtList(object):
-
     def __init__(self, todo_filename=None, todo_text=None):
         """Can initialize from either a file, or from text directly."""
         self.items = []
-        self.items_as_text = ''
-        self.todo_filename = ''
+        self.items_as_text = ""
+        self.todo_filename = ""
 
         if todo_filename:
             self.init_from_file(todo_filename)
@@ -47,10 +46,10 @@ class TodoTxtList(object):
         self.todo_filename = os.path.abspath(file_name)  # absolute path!
 
         try:
-            with open(self.todo_filename, 'r+') as f:
+            with open(self.todo_filename, "r+") as f:
                 todo_lines = f.read()
         except IOError:
-            print ("Error opening file:\n" + self.todo_filename)
+            print("Error opening file:\n" + self.todo_filename)
             sys.exit(1)
 
         self.init_from_text(todo_lines)
@@ -58,7 +57,7 @@ class TodoTxtList(object):
     def reload_from_file(self):
         """Reload the list from already-set filename."""
         if self.todo_filename:
-            self.items = [] # Clear out existing items
+            self.items = []  # Clear out existing items
             self.init_from_file(self.todo_filename)
 
     def add_item(self, item_text):
@@ -104,14 +103,14 @@ class TodoTxtList(object):
     def write_to_file(self):
         """Output the list to a file."""
         try:
-            with open(self.todo_filename, 'w') as f:
+            with open(self.todo_filename, "w") as f:
                 f.write(str(self))
         except IOError:
-            print ("Error writing to file:\n" + self.todo_filename)
+            print("Error writing to file:\n" + self.todo_filename)
             sys.exit(1)
 
     def __str__(self):
-        list_text = ''
+        list_text = ""
         for item in self.items:
             list_text = list_text + str(item) + "\n"
         return list_text.strip()

@@ -23,97 +23,97 @@ from todo_indicator.todotxt.item import TodoTxtItem
 
 
 class TestTodoTxtItem(unittest.TestCase):
-
     def test_init_from_text_completion(self):
-        completed_item = 'x This is a completed item'
-        completed_whitespace = '    x Also completed    '
-        not_completed = 'xNope, not even close'
-        also_not_completed = '   Nope, not even close'
+        completed_item = "x This is a completed item"
+        completed_whitespace = "    x Also completed    "
+        not_completed = "xNope, not even close"
+        also_not_completed = "   Nope, not even close"
 
         test_item = TodoTxtItem()
         test_item.init_from_text(completed_item)
         self.assertTrue(test_item.is_completed)
-        self.assertEqual(test_item.text, 'This is a completed item')
+        self.assertEqual(test_item.text, "This is a completed item")
 
         test_item.init_from_text(completed_whitespace)
         self.assertTrue(test_item.is_completed)
-        self.assertEqual(test_item.text, 'Also completed')
+        self.assertEqual(test_item.text, "Also completed")
 
         test_item.init_from_text(not_completed)
         self.assertFalse(test_item.is_completed)
-        self.assertEqual(test_item.text, 'xNope, not even close')
+        self.assertEqual(test_item.text, "xNope, not even close")
 
         test_item.init_from_text(also_not_completed)
         self.assertFalse(test_item.is_completed)
-        self.assertEqual(test_item.text, 'Nope, not even close')
+        self.assertEqual(test_item.text, "Nope, not even close")
 
     def test_init_from_text_priority(self):
-        item_with_priority = '(A) This item is pretty important'
-        item_with_priority2 = '(Z) Not so important'
-        no_priority = 'Just some item'
-        no_priority2 = '(b) Only caps should work here'
+        item_with_priority = "(A) This item is pretty important"
+        item_with_priority2 = "(Z) Not so important"
+        no_priority = "Just some item"
+        no_priority2 = "(b) Only caps should work here"
 
         test_item = TodoTxtItem()
         test_item.init_from_text(item_with_priority)
-        self.assertEqual(test_item.priority, 'A')
-        self.assertEqual(test_item.text, 'This item is pretty important')
+        self.assertEqual(test_item.priority, "A")
+        self.assertEqual(test_item.text, "This item is pretty important")
 
         test_item.init_from_text(item_with_priority2)
-        self.assertEqual(test_item.priority, 'Z')
-        self.assertEqual(test_item.text, 'Not so important')
+        self.assertEqual(test_item.priority, "Z")
+        self.assertEqual(test_item.text, "Not so important")
 
         test_item.init_from_text(no_priority)
         self.assertEqual(test_item.priority, None)
-        self.assertEqual(test_item.text, 'Just some item')
+        self.assertEqual(test_item.text, "Just some item")
 
         test_item.init_from_text(no_priority2)
         self.assertEqual(test_item.priority, None)
-        self.assertEqual(test_item.text, '(b) Only caps should work here')
+        self.assertEqual(test_item.text, "(b) Only caps should work here")
 
     def test_init_from_text_completion_and_priority(self):
-        item = 'x (R) Good thing I completed this'
+        item = "x (R) Good thing I completed this"
 
         test_item = TodoTxtItem()
         test_item.init_from_text(item)
 
         self.assertTrue(test_item.is_completed)
-        self.assertEqual(test_item.priority, 'R')
-        self.assertEqual(test_item.text, 'Good thing I completed this')
+        self.assertEqual(test_item.priority, "R")
+        self.assertEqual(test_item.text, "Good thing I completed this")
 
     def test_to_string(self):
-        test_item = TodoTxtItem('This is some task', 'F', True)
-        self.assertEqual(str(test_item), 'x (F) This is some task')
+        test_item = TodoTxtItem("This is some task", "F", True)
+        self.assertEqual(str(test_item), "x (F) This is some task")
 
-        test_item = TodoTxtItem('This is some task', None, False)
-        self.assertEqual(str(test_item), 'This is some task')
+        test_item = TodoTxtItem("This is some task", None, False)
+        self.assertEqual(str(test_item), "This is some task")
 
     def test_from_string_back_to_string(self):
-        original_item = 'x (Z) Here we go again'
-        some_whitespace = 'x    (B)    This one is pretty weird'
+        original_item = "x (Z) Here we go again"
+        some_whitespace = "x    (B)    This one is pretty weird"
 
         test_item = TodoTxtItem()
         test_item.init_from_text(original_item)
         self.assertEqual(original_item, str(test_item))
 
         test_item.init_from_text(some_whitespace)
-        self.assertEqual('x (B) This one is pretty weird', str(test_item))
+        self.assertEqual("x (B) This one is pretty weird", str(test_item))
 
     def test_equality_check(self):
-        item1 = TodoTxtItem('An item', 'A', False)
-        item2 = TodoTxtItem('An item', 'A', False)
+        item1 = TodoTxtItem("An item", "A", False)
+        item2 = TodoTxtItem("An item", "A", False)
         self.assertEqual(item1, item2)
 
     def test_sort_by_priority(self):
-        item1 = TodoTxtItem('An item', 'A', False)
-        item2 = TodoTxtItem('An item', 'Z', False)
+        item1 = TodoTxtItem("An item", "A", False)
+        item2 = TodoTxtItem("An item", "Z", False)
         self.assertTrue(item2 > item1)
         self.assertTrue(item2 >= item2)
 
     def test_sort_by_text(self):
-        item1 = TodoTxtItem('aaaaa', 'A', False)
-        item2 = TodoTxtItem('zzzzz', 'A', False)
+        item1 = TodoTxtItem("aaaaa", "A", False)
+        item2 = TodoTxtItem("zzzzz", "A", False)
         self.assertTrue(item1 < item2)
         self.assertTrue(item1 <= item2)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

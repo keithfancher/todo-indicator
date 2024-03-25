@@ -25,12 +25,17 @@ from todo_indicator.indicator import TodoTxtIndicator
 def get_args():
     """Gets and parses command line arguments."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('-e', '--editor', action='store',
-                        help='your favorite text editor')
-    parser.add_argument('-i', '--invert', action='store_true', default=False,
-                        help='invert the panel icon color')
-    parser.add_argument('todo_filename', action='store',
-                        help='your todo.txt file')
+    parser.add_argument(
+        "-e", "--editor", action="store", help="your favorite text editor"
+    )
+    parser.add_argument(
+        "-i",
+        "--invert",
+        action="store_true",
+        default=False,
+        help="invert the panel icon color",
+    )
+    parser.add_argument("todo_filename", action="store", help="your todo.txt file")
     return parser.parse_args()
 
 

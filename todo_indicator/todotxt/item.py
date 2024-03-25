@@ -23,7 +23,6 @@ import re
 
 @functools.total_ordering
 class TodoTxtItem(object):
-
     def __init__(self, text=None, priority=None, is_completed=False):
         self.text = text
         self.priority = priority
@@ -33,14 +32,14 @@ class TodoTxtItem(object):
         item_text = item_text.strip()
 
         # First get completion:
-        if item_text[:2] == 'x ':
+        if item_text[:2] == "x ":
             self.is_completed = True
             item_text = item_text[2:].strip()
         else:
             self.is_completed = False
 
         # Now get priority, if it exists:
-        priority_regex = r'^\(([A-Z])\) '
+        priority_regex = r"^\(([A-Z])\) "
         match = re.search(priority_regex, item_text)
         if match:
             self.priority = match.group(1)
@@ -56,19 +55,21 @@ class TodoTxtItem(object):
 
     def __str__(self):
         if self.is_completed:
-            output = 'x '
+            output = "x "
         else:
-            output = ''
+            output = ""
 
         if self.priority:
-            output = output + '(' + self.priority + ') '
+            output = output + "(" + self.priority + ") "
 
         return output + self.text
 
     def __eq__(self, other):
-        return self.text == other.text and \
-               self.is_completed == other.is_completed and \
-               self.priority == other.priority
+        return (
+            self.text == other.text
+            and self.is_completed == other.is_completed
+            and self.priority == other.priority
+        )
 
     def __lt__(self, other):
         # First sort by completion:

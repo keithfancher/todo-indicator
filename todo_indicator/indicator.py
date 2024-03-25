@@ -18,27 +18,25 @@
 
 
 import os
-import pyinotify
+
 import gi
+import pyinotify
 
 # Required before importing `AppIndicator3` below:
-gi.require_version('AppIndicator3', '0.1')
+gi.require_version("AppIndicator3", "0.1")
 
-from gi.repository import AppIndicator3 as appindicator, \
-                          GObject, \
-                          Gtk
+from gi.repository import AppIndicator3 as appindicator
+from gi.repository import GObject, Gtk
 
 from todo_indicator.todotxt.list import TodoTxtList
 
-
-IMG_PATH = os.path.dirname(os.path.realpath(__file__)) + '/img/'
-LIGHT_ICON = IMG_PATH + 'panel-icon-light.svg' # Light icon for dark panel background
-DARK_ICON = IMG_PATH + 'panel-icon-dark.svg'   # Dark icon for light panel background
+IMG_PATH = os.path.dirname(os.path.realpath(__file__)) + "/img/"
+LIGHT_ICON = IMG_PATH + "panel-icon-light.svg"  # Light icon for dark panel background
+DARK_ICON = IMG_PATH + "panel-icon-dark.svg"  # Dark icon for light panel background
 DEFAULT_EDITOR = "xdg-open"
 
 
 class TodoTxtIndicator(object):
-
     def __init__(self, todo_filename, text_editor=None, invert_icon=False):
         """Sets the filename, loads the list of items from the file, builds the
         indicator, &c."""
@@ -80,15 +78,13 @@ class TodoTxtIndicator(object):
         watch the entire path, since inotify is very inconsistent about what
         events it catches for a single file."""
         self.wm = pyinotify.WatchManager()
-        self.notifier = pyinotify.ThreadedNotifier(self.wm,
-                                                   self._process_inotify_event)
+        self.notifier = pyinotify.ThreadedNotifier(self.wm, self._process_inotify_event)
         self.notifier.start()
 
         # The IN_MOVED_TO watch catches Dropbox updates, which don't trigger
         # normal IN_MODIFY events.
         todo_path = os.path.dirname(self.todo_list.todo_filename)
-        self.wm.add_watch(todo_path,
-                          pyinotify.IN_MODIFY | pyinotify.IN_MOVED_TO)
+        self.wm.add_watch(todo_path, pyinotify.IN_MODIFY | pyinotify.IN_MOVED_TO)
 
     def _setup_menu_items(self, todo_filename):
         """Menu items (aside from the todo items themselves). An association of
@@ -105,8 +101,8 @@ class TodoTxtIndicator(object):
         it's True, it will rebuild the GUI with the updated list and reset the
         flag.  This is necessary since threads + GTK are wonky as fuck."""
         if self.list_updated_flag:
-            self._build_indicator() # rebuild
-            self.list_updated_flag = False # reset flag
+            self._build_indicator()  # rebuild
+            self.list_updated_flag = False  # reset flag
 
         # If we don't explicitly return True here the callback will be removed
         # from the queue after one call and will never be called again.
@@ -130,7 +126,7 @@ class TodoTxtIndicator(object):
         them all off. Also, you're stupid for doing that."""
         self.todo_list.mark_item_completed_with_full_text(menu_item.get_label())
         self.todo_list.write_to_file()
-        self._build_indicator() # rebuild!
+        self._build_indicator()  # rebuild!
 
     def _edit_handler(self, menu_item):
         """Opens the todo.txt file with selected editor."""
@@ -144,19 +140,19 @@ class TodoTxtIndicator(object):
 
     def _refresh_handler(self, menu_item):
         """Manually refreshes the list."""
-        self._build_indicator() # rebuild indicator
+        self._build_indicator()  # rebuild indicator
 
     def _quit_handler(self, menu_item):
         """Quits our fancy little program."""
-        self.notifier.stop() # stop watching the file!
+        self.notifier.stop()  # stop watching the file!
         Gtk.main_quit()
 
     def _add_list_menu_items(self, menu):
         """Creates menu items for each of our todo list items. Pass it a GTK
         menu object, it returns that object with menu items added."""
-        for todo_item in sorted(self.todo_list.items): # Display items sorted
+        for todo_item in sorted(self.todo_list.items):  # Display items sorted
             menu_item = Gtk.MenuItem(str(todo_item))
-            if todo_item.is_completed: # gray out completed items
+            if todo_item.is_completed:  # gray out completed items
                 menu_item.set_sensitive(False)
             menu_item.connect("activate", self._check_off_handler)
             menu_item.show()
@@ -165,9 +161,12 @@ class TodoTxtIndicator(object):
 
     def _build_indicator(self):
         """Builds the Indicator object."""
-        if not hasattr(self, 'ind'): # self.ind needs to be created
-            self.ind = appindicator.Indicator.new("todo-txt-indicator",
-                self.icon_path, appindicator.IndicatorCategory.OTHER)
+        if not hasattr(self, "ind"):  # self.ind needs to be created
+            self.ind = appindicator.Indicator.new(
+                "todo-txt-indicator",
+                self.icon_path,
+                appindicator.IndicatorCategory.OTHER,
+            )
             self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
 
         # Make sure the list is loaded:
@@ -179,7 +178,7 @@ class TodoTxtIndicator(object):
             menu = self._add_list_menu_items(menu)
         else:
             # If the list is empty, show helpful message:
-            menu_item = Gtk.MenuItem('[ No items. Click \'Edit\' to add some! ]')
+            menu_item = Gtk.MenuItem("[ No items. Click 'Edit' to add some! ]")
             menu_item.set_sensitive(False)
             menu_item.show()
             menu.append(menu_item)
