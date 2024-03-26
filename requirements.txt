@@ -1,0 +1,4 @@
+build==1.1.1
+PyGObject==3.48.1
+pyinotify==0.9.6
+ruff==0.3.4
