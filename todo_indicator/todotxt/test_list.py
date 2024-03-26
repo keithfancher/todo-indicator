@@ -43,15 +43,13 @@ class TestTodoTxtList(unittest.TestCase):
         file_name = "sample-todo.txt"
         test_list = TodoTxtList(file_name)
 
-        self.assertEqual(8, test_list.num_items())
+        self.assertEqual(7, test_list.num_items())
 
         self.assertEqual("Do that really important thing", test_list.items[0].text)
         self.assertEqual("A", test_list.items[0].priority)
         self.assertFalse(test_list.items[0].is_completed)
 
-        self.assertEqual(
-            "Summon AppIndicator documentation from my ass", test_list.items[1].text
-        )
+        self.assertEqual("Remember how Python works", test_list.items[1].text)
         self.assertEqual("D", test_list.items[1].priority)
         self.assertFalse(test_list.items[1].is_completed)
 
@@ -74,10 +72,6 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual("Be annoyed at GTK3 docs", test_list.items[6].text)
         self.assertEqual(None, test_list.items[6].priority)
         self.assertTrue(test_list.items[6].is_completed)
-
-        self.assertEqual("Something I already did", test_list.items[7].text)
-        self.assertEqual(None, test_list.items[7].priority)
-        self.assertTrue(test_list.items[7].is_completed)
 
     def test_reload_from_file(self):
         test_list = TodoTxtList()  # Start with an empty list
@@ -86,15 +80,13 @@ class TestTodoTxtList(unittest.TestCase):
         test_list.todo_filename = "sample-todo.txt"
         test_list.reload_from_file()
 
-        self.assertEqual(8, test_list.num_items())
+        self.assertEqual(7, test_list.num_items())
 
         self.assertEqual("Do that really important thing", test_list.items[0].text)
         self.assertEqual("A", test_list.items[0].priority)
         self.assertFalse(test_list.items[0].is_completed)
 
-        self.assertEqual(
-            "Summon AppIndicator documentation from my ass", test_list.items[1].text
-        )
+        self.assertEqual("Remember how Python works", test_list.items[1].text)
         self.assertEqual("D", test_list.items[1].priority)
         self.assertFalse(test_list.items[1].is_completed)
 
@@ -117,10 +109,6 @@ class TestTodoTxtList(unittest.TestCase):
         self.assertEqual("Be annoyed at GTK3 docs", test_list.items[6].text)
         self.assertEqual(None, test_list.items[6].priority)
         self.assertTrue(test_list.items[6].is_completed)
-
-        self.assertEqual("Something I already did", test_list.items[7].text)
-        self.assertEqual(None, test_list.items[7].priority)
-        self.assertTrue(test_list.items[7].is_completed)
 
     def test_has_items(self):
         test_list = TodoTxtList()
