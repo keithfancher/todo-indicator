@@ -57,7 +57,7 @@ class TodoTxtIndicator(object):
         self.todo_list = TodoTxtList(todo_filename)
 
         # Non-list menu items:
-        self._setup_menu_items()
+        self._setup_menu_items(todo_filename)
 
         # Necessary for threaded notifications:
         GObject.threads_init()
@@ -90,11 +90,11 @@ class TodoTxtIndicator(object):
         self.wm.add_watch(todo_path,
                           pyinotify.IN_MODIFY | pyinotify.IN_MOVED_TO)
 
-    def _setup_menu_items(self):
+    def _setup_menu_items(self, todo_filename):
         """Menu items (aside from the todo items themselves). An association of
         text and callback functions. Can't use a dict because we need to
         preserve order."""
-        self._menu_items = [ ('Edit todo.txt', self._edit_handler),
+        self._menu_items = [ ('Edit ' + todo_filename.split('/')[-1], self._edit_handler),
                              ('Clear completed', self._clear_completed_handler),
                              ('Refresh', self._refresh_handler),
                              ('Quit', self._quit_handler) ]
