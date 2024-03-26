@@ -90,10 +90,12 @@ class TodoTxtIndicator(object):
         """Menu items (aside from the todo items themselves). An association of
         text and callback functions. Can't use a dict because we need to
         preserve order."""
-        self._menu_items = [ ('Edit ' + todo_filename.split('/')[-1], self._edit_handler),
-                             ('Clear completed', self._clear_completed_handler),
-                             ('Refresh', self._refresh_handler),
-                             ('Quit', self._quit_handler) ]
+        self._menu_items = [
+            ("Edit " + todo_filename.split("/")[-1], self._edit_handler),
+            ("Clear completed", self._clear_completed_handler),
+            ("Refresh", self._refresh_handler),
+            ("Quit", self._quit_handler),
+        ]
 
     def _update_if_todo_file_changed(self):
         """This will be called by the main GTK thread every half second or so.
