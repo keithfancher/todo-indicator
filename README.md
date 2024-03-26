@@ -77,3 +77,33 @@ icon color:
 ```bash
 todo-indicator -i ~/todo.txt
 ```
+
+
+## Contributing
+
+Check the `Makefile` for some common operations like code formatting, linting,
+and running unit tests.
+
+If you install/run `todo-indicator` inside a virtual env (usually recommended
+for development), you'll need to install the dependencies from the
+`requirements.txt` file:
+
+```bash
+pip install -r requirements.txt
+```
+
+This includes `PyGObject`, which itself needs some extra development
+dependencies to be installed on your system. See [the PyGObject
+docs](https://gnome.pages.gitlab.gnome.org/pygobject/getting_started.html#ubuntu-logo-ubuntu-debian-logo-debian)
+for more info.
+
+Alternatively, you can skip this step, install the "normal" system-level
+dependencies from the [Installation](#installation) section, and create your
+virtual env with the `--system-site-packages` option:
+
+```bash
+python -m venv --system-site-packages .venv
+```
+
+This will allow your local, virtual env version of `todo-indicator` to import
+your system-level python libraries (in particular the `gi` package).
