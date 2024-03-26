@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Show the list's actual filename in "Edit" menu item instead of hard-coded
+  `todo.txt`. ([PR #6](https://github.com/keithfancher/Todo-Indicator/pull/6).)
 - Update module structure for proper packaging and installation.
 - Update build system and package metadata.
 - Documentation updates: bring things into the current century, mostly.
@@ -21,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Python 3 support. Thanks, @tenbaht!
+- Python 3 support. ([PR #5](https://github.com/keithfancher/Todo-Indicator/pull/5).)
 
 ### Fixed
 
