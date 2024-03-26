@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "todo-indicator"
-version = "0.6.0"
+version = "0.7.0"
 description = "An Ubuntu app indicator for todo.txt-style todo lists"
 authors = [
   {name="Keith Fancher"},
