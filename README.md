@@ -13,8 +13,16 @@ Install `todo-indicator` with `pip`:
 pip install todo-indicator
 ```
 
-However, **todo-indicator has some system dependencies which `pip` can't
-satisfy**. The following should ensure you have everything you need:
+If you're using `pipx` (for example on Ubuntu 23.04 or greater), the simplest
+option is to install with the `--system-site-packages` argument:
+
+```bash
+pipx install --system-site-packages todo-indicator
+```
+
+In either case, note that **todo-indicator has some system dependencies which
+`pip` can't easily satisfy**. The following should ensure you have everything
+you need:
 
 ```bash
 sudo apt install python3-pyinotify python3-gi gir1.2-appindicator3-0.1
@@ -23,9 +31,17 @@ sudo apt install python3-pyinotify python3-gi gir1.2-appindicator3-0.1
 (The above is verified working on Ubuntu 20.04 and 22.04. I can't speak for
 other versions or distros, but it will likely be something similar.)
 
-You can also simply clone the repo and run the provided `todo-indicator`
-binary directly, without installing it. You'll still need to install the
-required dependencies as described above, however.
+If you prefer to run `todo-indicator` in a virtual env (or if you're required
+to do so by `pipx`) and you do *not* want to use the `--system-site-packages`
+option, you'll need to `pip install` (or `pipx inject`) the required
+dependencies in your virtual env. Unfortunately, because of the `PyGObject`
+dependency, there are some extra steps involved with this. For more details,
+see the [Contributing](#contributing) section -- this is the same process
+you'd go through for local development.
+
+Note that you can also simply clone the repo and run the provided
+`todo-indicator` binary directly, without installing it. You'll still need to
+install the required dependencies as described above, however.
 
 
 ## Requirements
